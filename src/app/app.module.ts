@@ -8,7 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { treeModule } from './tree/tree.module';
-
+import { dialogModule } from './dialog/dialog.module';
+import { chartModule } from './chart/chart.module';
 /** 配置 angular i18n **/
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
@@ -33,6 +34,8 @@ registerLocaleData(zh);
     NzTreeModule,
     NzDropDownModule,
     treeModule,
+    dialogModule,
+    chartModule,
   ],
   bootstrap: [AppComponent],
   /** 配置 ng-zorro-antd 国际化（文案 及 日期） **/

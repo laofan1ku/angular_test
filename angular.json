@@ -33,7 +33,7 @@
               }
             ],
             "styles": ["src/styles.less"],
-            "scripts": []
+            "scripts": ["node_modules/echarts/dist/echarts.js"]
           },
           "configurations": {
             "production": {
@@ -41,7 +41,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -96,6 +96,5 @@
   },
   "cli": {
     "analytics": "0511ffd2-9073-474c-9551-8c9e98139556"
-  },
-  "styles": ["node_modules/ng-zorro-antd/ng-zorro-antd.min.css"]
+  }
 }

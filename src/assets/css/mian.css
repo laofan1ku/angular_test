@@ -1,0 +1,20 @@
+@import url('./border.css');
+@import url('./color.css');
+@import url('./flex.css');
+@import url('./margin.css');
+@import url('./padding.css');
+@import url('./text.css');
+@import url('./font.css');
+
+.pointer {
+  cursor: pointer;
+}
+
+.overflow_hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.height_100{
+  height: 100%;
+}

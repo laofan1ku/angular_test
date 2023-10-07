@@ -6,17 +6,14 @@
  * @Description: 请填写简介
  */
 import { NgModule } from '@angular/core';
-import { NzDemoTreeBasicControlledComponent } from './tree.component';
-import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { treeComponent } from './tree.component';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
-import { NzContextMenuService } from 'ng-zorro-antd/dropdown';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { CommonModule } from '@angular/common';
-
+import { NzModalModule } from 'ng-zorro-antd/modal';
 @NgModule({
-  declarations: [NzDemoTreeBasicControlledComponent],
-  imports: [NzStepsModule, NzTreeModule, NzDropDownModule, CommonModule],
+  declarations: [treeComponent],
+  imports: [NzTreeModule, CommonModule, NzModalModule],
   providers: [],
-  exports: [NzDemoTreeBasicControlledComponent],
+  exports: [treeComponent],
 })
 export class treeModule {}

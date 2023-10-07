@@ -1,0 +1,27 @@
+<!--
+ * @Author: liukun
+ * @Date: 2023-09-26 13:33:14
+ * @LastEditors: liukun
+ * @LastEditTime: 2023-09-26 15:41:49
+ * @FilePath: \PROJECT_NAME\src\app\chart\chart.component.html
+ * @Description: 
+ * 
+-->
+<div class="box">
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <div echarts [options]="lineOptions" class="demo"></div>
+    </div>
+    <div nz-col nzSpan="12">
+      <div echarts [options]="barOptions" class="demo"></div>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <div echarts [options]="scatterOptions" class="demo"></div>
+    </div>
+    <div nz-col nzSpan="12">
+      <div echarts [options]="perOptions" class="demo"></div>
+    </div>
+  </div>
+</div>

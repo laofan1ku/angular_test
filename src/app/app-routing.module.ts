@@ -7,46 +7,18 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NzDemoTreeBasicControlledComponent } from './tree/tree.component';
+import { treeComponent } from './tree/tree.component';
 
 const routes: Routes = [
   {
     path: '',
-    // component: LayoutComponent,
-    // canActivate: [AuthGuard],
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: '/home',
-      },
-      {
-        path: 'home',
-        loadChildren: () =>
-          import('./tree/tree.module').then((m) => m.treeModule),
-      },
-      // {
-      //   path: 'file',
-      //   loadChildren: () =>
-      //     import('./views/file/file.module').then((m) => m.FileModule),
-      // },
-      // {
-      //   path: 'system',
-      //   loadChildren: () =>
-      //     import('./views/system/system.module').then((m) => m.SystemModule),
-      // },
-      // {
-      //   path: 'setting',
-      //   canActivateChild: [AuthGuard],
-      //   loadChildren: () =>
-      //     import('./views/setting/setting.module').then((m) => m.SettingModule),
-      // },
-    ],
+    pathMatch: 'full',
+    redirectTo: '/Index',
   },
   {
-    path: 'home1',
+    path: '/Index',
     // loadChildren: () => import('./tree/tree.module').then((m) => m.treeModule),
-    component: NzDemoTreeBasicControlledComponent,
+    component: treeComponent,
   },
 ];
 

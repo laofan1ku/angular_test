@@ -1,17 +1,25 @@
 .mainBox {
   width: 100vw;
   height: 100vh;
-  background-color: #ccc;
-  position: relative;
+  // background: url('../assets/image/boxBorder.png') no-repeat 0 0 / 100% 100%;
+  background-color: #0c1d36;
   .ProjectTitle {
-    position: absolute;
-    top: 0;
     width: 100%;
     height: 50px;
-    background-color: rgb(8, 146, 146);
+    background-color: rgba(8, 146, 146, 0.8);
     text-align: center;
     font-size: 18px;
     line-height: 50px;
     color: #fff;
+  }
+  .componentBox {
+    height: calc(100% - 50px);
+    padding: 30px;
+  }
+  .tree {
+    width: 15.625vw;
+  }
+  .chart {
+    width: calc(100% - 15.625vw - 30px);
   }
 }
