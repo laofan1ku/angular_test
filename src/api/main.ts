@@ -1,8 +1,8 @@
 /*
  * @Author: liukun
  * @Date: 2023-09-27 10:22:40
- * @LastEditors: liukun
- * @LastEditTime: 2023-09-27 16:13:35
+ * @LastEditors: 老范
+ * @LastEditTime: 2023-10-07 14:40:41
  * @FilePath: \PROJECT_NAME\src\api\main.ts
  * @Description:
  *
@@ -10,12 +10,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 @Injectable({
   providedIn: 'root',
 })
 export class MyService {
-  private apiUrl = 'http://192.168.2.206:8848/';
+  private apiUrl = (window as any).getWinConfig().server;
   constructor(private http: HttpClient) {}
   // 树形列表
   getTreeListApi(): Observable<any> {

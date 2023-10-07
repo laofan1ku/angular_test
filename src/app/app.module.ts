@@ -18,7 +18,6 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzContextMenuService } from 'ng-zorro-antd/dropdown';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-
 registerLocaleData(zh);
 
 @NgModule({
