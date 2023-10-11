@@ -1,27 +1,19 @@
 <!--
  * @Author: liukun
  * @Date: 2023-09-26 13:33:14
- * @LastEditors: liukun
- * @LastEditTime: 2023-09-26 15:41:49
+ * @LastEditors: 老范
+ * @LastEditTime: 2023-10-11 13:21:17
  * @FilePath: \PROJECT_NAME\src\app\chart\chart.component.html
  * @Description: 
  * 
 -->
 <div class="box">
-  <div nz-row>
-    <div nz-col nzSpan="12">
-      <div echarts [options]="lineOptions" class="demo"></div>
-    </div>
-    <div nz-col nzSpan="12">
-      <div echarts [options]="barOptions" class="demo"></div>
-    </div>
+  <div class="echarts-box">
+    <div echarts [options]="lineOptions" class="echarts-demo"></div>
+    <div echarts [options]="barOptions" class="echarts-demo"></div>
   </div>
-  <div nz-row>
-    <div nz-col nzSpan="12">
-      <div echarts [options]="scatterOptions" class="demo"></div>
-    </div>
-    <div nz-col nzSpan="12">
-      <div echarts [options]="perOptions" class="demo"></div>
-    </div>
+  <div class="echarts-box">
+    <div echarts [options]="scatterOptions" class="echarts-demo"></div>
+    <div echarts [options]="perOptions" class="echarts-demo"></div>
   </div>
 </div>

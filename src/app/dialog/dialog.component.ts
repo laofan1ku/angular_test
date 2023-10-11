@@ -1,8 +1,8 @@
 /*
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
- * @LastEditors: liukun
- * @LastEditTime: 2023-09-28 10:52:14
+ * @LastEditors: 老范
+ * @LastEditTime: 2023-10-11 10:59:50
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -31,6 +31,7 @@ export class dialogComponent implements OnInit {
     },
   };
   isVisible: boolean = false;
+  preVisible: boolean = false;
   total: number = 0;
   list: listType[] = [];
   loading: boolean = false;
@@ -64,6 +65,7 @@ export class dialogComponent implements OnInit {
   }
   // 预览
   preview(data: any) {
+    this.preVisible = true;
     this.jsonData = data;
   }
   // 下载文件

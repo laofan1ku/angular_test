@@ -8,8 +8,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 // import { MyService } from '@/api/main';
-import { MyService } from '../../api/main';
-import { CommunicateService } from '../communicate.service';
+import { MyService } from '@/api/main';
+import { CommunicateService } from '@/app/communicate.service';
 @Component({
   selector: 'app-tree',
   templateUrl: `./tree.component.html`,
