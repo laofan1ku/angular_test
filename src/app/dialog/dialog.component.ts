@@ -10,7 +10,7 @@ import { MyService } from '../../api/main';
 import { CommunicateService } from '../communicate.service';
 interface listType {
   _id: string;
-  CurrentTime: number;
+  currenttime: number;
   SimData: any[];
   TimeStamp: number;
 }

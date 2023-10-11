@@ -1,18 +1,29 @@
 <!--
  * @Author: liukun
  * @Date: 2023-09-26 13:33:14
- * @LastEditors: 老范
- * @LastEditTime: 2023-10-11 13:41:38
- * @FilePath: \PROJECT_NAME\src\app\dialog\dialog.component.html
+ * @LastEditors: liukun
+ * @LastEditTime: 2023-10-11 15:20:05
+ * @FilePath: \501-aq-pro\src\app\dialog\dialog.component.html
  * @Description: 
  * 
 -->
-<div class="dialogBox" style="height: 100%;">
-  <nz-modal [(nzVisible)]="isVisible" [nzFooter]="null" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-    nzWidth="60%" [nzStyle]="{top:'15%',}">
+<div class="dialogBox">
+  <nz-modal
+    [(nzVisible)]="isVisible"
+    [nzFooter]="null"
+    (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()"
+    nzWidth="60%"
+    [nzStyle]="{top:'15%',}"
+  >
     <ng-container *nzModalContent>
       <div class="dis-flex flex-x-end mar_b_10 mar_t_20">
-        <button nz-button nzType="primary" class="mar_r_10" (click)="downLoadFile('JSON')">
+        <button
+          nz-button
+          nzType="primary"
+          class="mar_r_10"
+          (click)="downLoadFile('JSON')"
+        >
           <span nz-icon nzType="download"></span>
           下载JSON文件
         </button>
@@ -21,20 +32,21 @@
           下载CSV文件
         </button>
       </div>
-      <nz-table #basicTable [nzData]="list" [nzLoading]="loading" [nzShowPagination]="false">
+      <nz-table
+        #basicTable
+        [nzData]="list"
+        [nzLoading]="loading"
+        [nzShowPagination]="false"
+      >
         <thead>
           <tr>
-            <th>序号</th>
-            <th>创建时间</th>
-            <th>执行时间</th>
+            <th>当前时间</th>
             <th>操作</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of basicTable.data">
-            <td>{{ data._id }}</td>
-            <td>{{ data.CurrentTime }}</td>
-            <td>{{ data.TimeStamp }}</td>
+            <td>{{ data.currenttime }}</td>
             <td>
               <a (click)="preview(data.SimData)">查看</a>
             </td>
@@ -43,16 +55,30 @@
       </nz-table>
       <div class="mar_t_10 dis-flex flex-x-center">
         <!-- nzShowSizeChanger -->
-        <nz-pagination [nzPageIndex]="listQuery.pageIndex" [nzPageSize]="listQuery.pageSize" [nzTotal]="total"
-          (nzPageIndexChange)="handleChangeIndex($event)" (nzPageSizeChange)="handleChangeSize($event)"></nz-pagination>
+        <nz-pagination
+          [nzPageIndex]="listQuery.pageIndex"
+          [nzPageSize]="listQuery.pageSize"
+          [nzTotal]="total"
+          (nzPageIndexChange)="handleChangeIndex($event)"
+          (nzPageSizeChange)="handleChangeSize($event)"
+        ></nz-pagination>
       </div>
     </ng-container>
-
   </nz-modal>
-  <nz-modal [(nzVisible)]="preVisible" (nzOnCancel)="preVisible = false" nzWidth="50%" [nzFooter]="null"
-    [nzStyle]="{top:'17%', height: '70%', overflow: 'auto' }">
+  <nz-modal
+    [(nzVisible)]="preVisible"
+    (nzOnCancel)="preVisible = false"
+    nzWidth="50%"
+    [nzFooter]="null"
+    [nzStyle]="{
+      top: '17%',
+      minHeight: '70%',
+      maxHeight: '70%',
+      overflow: 'auto'
+    }"
+  >
     <ng-container *nzModalContent>
-      <pre>{{ jsonData | json }}</pre>
+      <ngx-json-viewer [json]="jsonData" [expanded]="false"></ngx-json-viewer>
     </ng-container>
   </nz-modal>
 </div>
