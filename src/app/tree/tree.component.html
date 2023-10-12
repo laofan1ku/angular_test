@@ -2,15 +2,15 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: 老范
- * @LastEditTime: 2023-10-07 09:30:07
+ * @LastEditTime: 2023-10-12 13:20:28
  * @Description: 请填写简介
 -->
 <div class="treeBox height_100 pad_r_20">
   <div class="title col_f f-10 mar_b_10">树结构</div>
-  <nz-tree *ngIf="nodes[0].children.length" [nzData]="nodes" [nzSelectedKeys]="defaultSelectedKeys"
+  <!-- <nz-tree *ngIf="nodes[0].children.length" [nzData]="nodes" [nzSelectedKeys]="defaultSelectedKeys"
     (nzClick)="nzEvent($event)" [nzTreeTemplate]="nzTreeTemplate">
     <ng-template #nzTreeTemplate let-node let-origin="origin">
       <div class="node-line overflow_hidden">{{ origin.title }}</div>
     </ng-template>
-  </nz-tree>
+  </nz-tree> -->
 </div>
