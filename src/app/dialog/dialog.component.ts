@@ -1,11 +1,14 @@
 /*
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
- * @LastEditors: 老范
- * @LastEditTime: 2023-10-11 10:59:50
+ * @LastEditors: liukun
+ * @LastEditTime: 2023-10-12 17:51:31
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
+import * as ace from 'ace-builds';
+import 'ace-builds/src-noconflict/theme-monokai'; // 语言模式
+import 'ace-builds/src-noconflict/mode-json'; // 语言模式
 import { MyService } from '../../api/main';
 import { CommunicateService } from '../communicate.service';
 interface listType {
@@ -20,18 +23,40 @@ interface listType {
   styleUrls: ['./dialog.component.less'],
 })
 export class dialogComponent implements OnInit {
-  jsonData = {
-    name: 'John',
-    age: 30,
-    city: 'New York',
-    hobbies: ['Reading', 'Traveling', 'Coding'],
-    address: {
-      street: '123 Main St',
-      zip: '10001',
+  jsonData = [
+    {
+      name: 'John',
+      age: 30,
+      city: 'New York',
+      hobbies: ['Reading', 'Traveling', 'Coding'],
+      address: {
+        street: '123 Main St',
+        zip: '10001',
+      },
     },
-  };
+    {
+      name: 'John',
+      age: 30,
+      city: 'New York',
+      hobbies: ['Reading', 'Traveling', 'Coding'],
+      address: {
+        street: '123 Main St',
+        zip: '10001',
+      },
+    },
+    {
+      name: 'John',
+      age: 30,
+      city: 'New York',
+      hobbies: ['Reading', 'Traveling', 'Coding'],
+      address: {
+        street: '123 Main St',
+        zip: '10001',
+      },
+    },
+  ];
   isVisible: boolean = false;
-  preVisible: boolean = false;
+  preVisible: boolean = true;
   total: number = 0;
   list: listType[] = [];
   loading: boolean = false;
@@ -40,6 +65,7 @@ export class dialogComponent implements OnInit {
     pageIndex: 1,
     pageSize: 10,
   };
+  editor: any = null;
   constructor(private myService: MyService, private cs: CommunicateService) {}
   ngOnInit(): void {
     this.cs.ob.subscribe((msg) => {
@@ -47,6 +73,25 @@ export class dialogComponent implements OnInit {
       this.getList();
       this.isVisible = true;
     });
+  }
+  // json预览打开之后
+  preAfterOpen() {
+    if (!this.editor) {
+      this.editor = ace.edit('editor', {
+        theme: 'ace/theme/monokai', // 设置编辑器主题
+        fontSize: 16,
+        mode: 'ace/mode/json', // 设置 JSON 语法高亮模式
+      });
+    }
+    // editor.setTheme('ace/theme/monokai'); // 设置编辑器主题
+    // editor.session.setMode('ace/mode/json'); // 设置 JSON 语法高亮模式
+    const jsonString = JSON.stringify(this.jsonData, null, 2);
+    // 设置 JSON 数据到编辑器
+    this.editor.setValue(jsonString);
+    // 取消选中整个文本
+    this.editor.clearSelection();
+    // 默认折叠 JSON 数据
+    this.editor.session.foldAll(1); // 1 表示折叠
   }
   handleCancel() {
     this.isVisible = false;
