@@ -68,6 +68,7 @@ export class dialogComponent implements OnInit {
   editor: any = null;
   constructor(private myService: MyService, private cs: CommunicateService) {}
   ngOnInit(): void {
+    // 点击后将触发该订阅  获取数据并渲染，打开弹框
     this.cs.ob.subscribe((msg) => {
       this.listQuery.tableName = msg;
       this.getList();
@@ -103,6 +104,8 @@ export class dialogComponent implements OnInit {
   getList() {
     this.loading = true;
     this.myService.getDocumentsApi(this.listQuery).subscribe((res) => {
+      console.log('res', res);
+
       this.list = res.data;
       this.total = res.total;
       this.loading = false;

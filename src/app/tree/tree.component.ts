@@ -1,8 +1,8 @@
 /*
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
- * @LastEditors: liukun
- * @LastEditTime: 2023-10-13 13:20:03
+ * @LastEditors: 老范
+ * @LastEditTime: 2023-10-13 15:31:39
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -84,6 +84,8 @@ export class treeComponent implements OnInit {
     // });
   }
   nzEvent(event: NzFormatEmitEvent): void {
+    console.log('event', event);
+
     const { keys, node } = event;
     if (node?.origin.isLeaf) {
       this.cs.sendData(keys![0]);
