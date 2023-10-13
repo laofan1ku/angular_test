@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-13 16:35:26
+ * @LastEditTime: 2023-10-13 17:57:21
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -120,6 +120,8 @@ export class dialogComponent implements OnInit {
   getList() {
     this.loading = true;
     this.myService.getDocumentsApi(this.listQuery).subscribe((res) => {
+      console.log('res', res);
+
       this.list = res.data;
       this.total = res.total;
       this.loading = false;
