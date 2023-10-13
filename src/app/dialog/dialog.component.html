@@ -2,7 +2,7 @@
  * @Author: liukun
  * @Date: 2023-09-26 13:33:14
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-12 16:27:27
+ * @LastEditTime: 2023-10-13 16:35:14
  * @FilePath: \501-aq-pro\src\app\dialog\dialog.component.html
  * @Description: 
  * 
@@ -12,48 +12,64 @@
     [(nzVisible)]="isVisible"
     [nzFooter]="null"
     (nzOnCancel)="handleCancel()"
+    [nzClosable]="false"
+    [nzStyle]="{
+      minHeight: '560px',
+      maxHeight: '750px',
+    }"
+    nzWidth="700px"
     (nzOnOk)="handleOk()"
-    nzWidth="60%"
-    [nzStyle]="{top:'15%',}"
   >
     <ng-container *nzModalContent>
-      <div class="dis-flex flex-x-end mar_b_10 mar_t_20">
-        <button
-          nz-button
-          nzType="primary"
-          class="mar_r_10"
-          (click)="downLoadFile('JSON')"
-        >
-          <span nz-icon nzType="download"></span>
-          下载JSON文件
-        </button>
-        <button nz-button nzType="primary" (click)="downLoadFile('CSV')">
-          <span nz-icon nzType="download"></span>
-          下载CSV文件
-        </button>
-      </div>
-      <nz-table
-        #basicTable
-        [nzData]="list"
-        [nzLoading]="loading"
-        [nzShowPagination]="false"
+      <div
+        class="dis-flex align-items flex-x-between mar_b_10 pad_h_10 content-header"
       >
-        <thead>
-          <tr>
-            <th>当前时间</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of basicTable.data">
-            <td>{{ data.currenttime }}</td>
-            <td>
-              <a (click)="preview(data.SimData)">查看</a>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table>
-      <div class="mar_t_10 dis-flex flex-x-center">
+        <div class="col_f f-15 pad_l_30">xxxxxxxxxxxxx</div>
+        <div class="dis-flex">
+          <!-- <button
+            nz-button
+            nzType="primary"
+            class="mar_r_10"
+            (click)="downLoadFile('JSON')"
+          >
+            <span nz-icon nzType="download"></span>
+            下载设置
+          </button> -->
+          <!-- <button nz-button nzType="primary" (click)="downLoadFile('CSV')">
+            <span nz-icon nzType="download"></span>
+            下载CSV文件
+          </button> -->
+          <div class="donwload-config mar_r_10 pointer">
+            <span nz-icon nzType="download" nzTheme="outline"></span>下载设置
+          </div>
+          <div class="close pointer">
+            <span nz-icon nzType="close" nzTheme="outline"></span>
+          </div>
+        </div>
+      </div>
+      <div class="table">
+        <div class="table-header dis-flex pad_v_10">
+          <div class="flex-box text-align">当前时间</div>
+          <div class="flex-box text-align">操作</div>
+        </div>
+        <div class="table-body col_f">
+          <div
+            class="table-row dis-flex pad_v_5 align-items"
+            *ngFor="let data of list; let i = index"
+            [ngClass]="i % 2 === 0 ? 'zebra-color' : ''"
+          >
+            <div class="table-row-td flex-box text-align">
+              {{ data.currenttime }}
+            </div>
+            <div class="table-row-td flex-box text-align">
+              <span class="view-data pointer" (click)="preview(data.SimData)"
+                >查看</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mar_t_10 dis-flex flex-x-center pagination">
         <!-- nzShowSizeChanger -->
         <nz-pagination
           [nzPageIndex]="listQuery.pageIndex"
@@ -71,16 +87,15 @@
     nzWidth="50%"
     [nzFooter]="null"
     (nzAfterOpen)="preAfterOpen()"
+    [nzClosable]="false"
     [nzStyle]="{
-      top: '17%',
-      minHeight: '70%',
-      maxHeight: '70%',
+      height: '700px',
       overflow: 'auto'
     }"
   >
     <ng-container *nzModalContent>
       <!-- <ngx-json-viewer [json]="jsonData" [expanded]="false"></ngx-json-viewer> -->
-      <div id="editor" style="height: 400px; width: 100%"></div>
+      <div id="editor"></div>
     </ng-container>
   </nz-modal>
 </div>

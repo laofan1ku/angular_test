@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-13 09:42:47
+ * @LastEditTime: 2023-10-13 16:35:26
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -12,10 +12,9 @@ import 'ace-builds/src-noconflict/mode-json'; // 语言模式
 import { MyService } from '../../api/main';
 import { CommunicateService } from '../communicate.service';
 interface listType {
-  _id: string;
   currenttime: number;
   SimData: any[];
-  TimeStamp: number;
+  index: number;
 }
 @Component({
   selector: 'app-dialog',
@@ -57,7 +56,7 @@ export class dialogComponent implements OnInit {
   ];
   isVisible: boolean = false;
   preVisible: boolean = false;
-  total: number = 0;
+  total: number = 100;
   list: listType[] = [];
   loading: boolean = false;
   listQuery = {
@@ -68,30 +67,48 @@ export class dialogComponent implements OnInit {
   editor: any = null;
   constructor(private myService: MyService, private cs: CommunicateService) {}
   ngOnInit(): void {
-    this.cs.ob.subscribe((msg) => {
-      this.listQuery.tableName = msg;
-      this.getList();
-      this.isVisible = true;
-    });
+    for (let index = 0; index < 20; index++) {
+      this.list.push({
+        currenttime: Date.now(),
+        SimData: [],
+        index: index,
+      });
+    }
+    this.isVisible = true;
+    // this.cs.ob.subscribe((msg) => {
+    //   this.listQuery.tableName = msg;
+    //   this.getList();
+    //   this.isVisible = true;
+    // });
   }
   // json预览打开之后
   preAfterOpen() {
-    if (!this.editor) {
-      this.editor = ace.edit('editor', {
-        theme: 'ace/theme/monokai', // 设置编辑器主题
-        fontSize: 16,
-        mode: 'ace/mode/json', // 设置 JSON 语法高亮模式
-      });
-    }
-    // editor.setTheme('ace/theme/monokai'); // 设置编辑器主题
-    // editor.session.setMode('ace/mode/json'); // 设置 JSON 语法高亮模式
+    // if (!this.editor) {
+    //   this.editor = ace.edit('editor', {
+    //     theme: 'ace/theme/monokai', // 设置编辑器主题
+    //     fontSize: 16,
+    //     mode: 'ace/mode/json', // 设置 JSON 语法高亮模式
+    //   });
+    // }
+    // const jsonString = JSON.stringify(this.jsonData, null, 2);
+    // // 设置 JSON 数据到编辑器
+    // this.editor.setValue(jsonString);
+    // // 取消选中整个文本
+    // this.editor.clearSelection();
+    // // 默认折叠 JSON 数据
+    // this.editor.session.foldAll(1); // 1 表示折叠
+    const editor = ace.edit('editor', {
+      theme: 'ace/theme/monokai', // 设置编辑器主题
+      fontSize: 16,
+      mode: 'ace/mode/json', // 设置 JSON 语法高亮模式
+    });
     const jsonString = JSON.stringify(this.jsonData, null, 2);
     // 设置 JSON 数据到编辑器
-    this.editor.setValue(jsonString);
+    editor.setValue(jsonString);
     // 取消选中整个文本
-    this.editor.clearSelection();
+    editor.clearSelection();
     // 默认折叠 JSON 数据
-    this.editor.session.foldAll(1); // 1 表示折叠
+    editor.session.foldAll(1); // 1 表示折叠
   }
   handleCancel() {
     this.isVisible = false;
@@ -111,7 +128,7 @@ export class dialogComponent implements OnInit {
   // 预览
   preview(data: any) {
     this.preVisible = true;
-    this.jsonData = data;
+    // this.jsonData = data;
   }
   // 下载文件
   downLoadFile(type: string) {

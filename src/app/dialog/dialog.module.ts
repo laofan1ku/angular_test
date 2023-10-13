@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 16:08:50
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-11 15:01:29
+ * @LastEditTime: 2023-10-13 14:44:35
  * @Description: 请填写简介
  */
 import { NgModule } from '@angular/core';
@@ -14,6 +14,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 @NgModule({
   declarations: [dialogComponent],
@@ -26,6 +27,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzButtonModule,
     NzPaginationModule,
     NgxJsonViewerModule,
+    NzIconModule,
   ],
   providers: [],
   exports: [dialogComponent],

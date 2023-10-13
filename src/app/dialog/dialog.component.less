@@ -1,0 +1,99 @@
+  ::ng-deep.ant-modal-content{
+    height: 100%;
+    .ant-modal-body{
+      padding: 2px;
+      background: url('../../assets/image/dialogBg.png') no-repeat 0 0 / 100% 100%;
+      height: 100%;
+      background-color: #162d63;
+      .content-header{
+          height: 40px;
+          background: #13519e;
+          .donwload-config, .close{
+              color: #dbeafb;
+              border: 1px #61a2ed solid;
+              font-size: 14px;
+              border-radius: 5px;
+              padding: 1px 7px;
+              background-color: rgb(38, 102, 178);
+          }
+          .donwload-config:hover, .close:hover{
+              background-color: rgba(38, 102, 178, .5);
+          }
+      }
+  }
+  } 
+
+.view-data{
+    display: inline-block;
+    width: 65px;
+    padding: 3px 0;
+    text-align: center;
+    background: #1364be;
+    background: linear-gradient(to bottom, #136fd6, #1562be);
+    border-radius: 5px;
+    color: #fff;
+}
+.table{
+  height: calc(100% - 50px - 83px);
+    .table-header{
+        background: #132e63;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bolder;
+        letter-spacing: 1px;
+    }
+    .table-body{
+      // height: calc(100% - 45px);
+      height: 500px;
+      ::-webkit-scrollbar {
+        width: 0.417vw;
+        height: 0.417vw;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0c1d36;
+        border-radius: 0.208vw;
+      }
+      ::-webkit-scrollbar-thumb {
+        border-radius: 0.208vw;
+        background: #3d4a5e;
+      }
+      overflow-y: auto;
+            .zebra-color{
+                background: #163d78;
+            }
+    }
+}
+.pagination {
+    padding: 20px 0;
+    border-top: 1px solid #1e508f;
+  
+    &::ng-deep.ant-pagination-item,
+    &::ng-deep.ant-pagination-prev,
+    &::ng-deep.ant-pagination-next {
+      background: transparent;
+      border: 1px solid #4d7ec1;
+      border-radius: 5px;
+      a, button{
+        color: #fff;
+      }
+      button{
+        background: transparent;
+        border: unset;
+      }
+    }
+  
+    &::ng-deep.ant-pagination-item-ellipsis {
+      color: #4477ba;
+    }
+  
+    &::ng-deep.ant-pagination-item-active {
+      background: #1061bc;
+    }
+  }
+.table-tobdy-tr:hover{
+    background: none !important;
+}
+#editor{
+  width: 100%;
+  height: 100%;
+}
