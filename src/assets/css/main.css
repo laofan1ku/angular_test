@@ -15,6 +15,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.width_100{
+  width: 100%;
+}
 .height_100{
   height: 100%;
 }

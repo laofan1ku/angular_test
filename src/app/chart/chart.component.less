@@ -2,10 +2,20 @@
     height: 100%;
     .echarts-box{
         display: flex;
-        height: 50%;
+        height: calc(50% - 10px);
         .echarts-demo{
+            padding: 15px 10px;
             flex: 1;
-
+            background: url('../../assets/image/chartBg.png') no-repeat 0 0 / 100% 100%;
+            position: relative;
+            .header{
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 2.483vw;
+                width: 100%;
+                background: url('../../assets/image/chartHeader.png') no-repeat 0 0 / 100% 100%;
+            }
         }
     }
 }

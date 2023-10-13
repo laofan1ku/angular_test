@@ -1,19 +1,31 @@
 <!--
  * @Author: liukun
  * @Date: 2023-09-26 13:33:14
- * @LastEditors: 老范
- * @LastEditTime: 2023-10-11 13:21:17
- * @FilePath: \PROJECT_NAME\src\app\chart\chart.component.html
+ * @LastEditors: liukun
+ * @LastEditTime: 2023-10-13 11:15:17
+ * @FilePath: \501-aq-pro\src\app\chart\chart.component.html
  * @Description: 
  * 
 -->
 <div class="box">
-  <div class="echarts-box">
-    <div echarts [options]="lineOptions" class="echarts-demo"></div>
-    <div echarts [options]="barOptions" class="echarts-demo"></div>
+  <div class="echarts-box mar_b_20">
+    <div class="echarts-demo mar_r_20">
+      <div class="header"></div>
+      <div echarts [options]="lineOptions"></div>
+    </div>
+    <div class="echarts-demo">
+      <div class="header"></div>
+      <div echarts [options]="barOptions"></div>
+    </div>
   </div>
   <div class="echarts-box">
-    <div echarts [options]="scatterOptions" class="echarts-demo"></div>
-    <div echarts [options]="perOptions" class="echarts-demo"></div>
+    <div class="echarts-demo mar_r_20">
+      <div class="header"></div>
+      <div echarts [options]="scatterOptions"></div>
+    </div>
+    <div class="echarts-demo">
+      <div class="header"></div>
+      <div echarts [options]="perOptions"></div>
+    </div>
   </div>
 </div>

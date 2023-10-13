@@ -1,35 +1,44 @@
 .treeBox {
-  background: url("../../assets/image/silder.png") no-repeat 0 0 / 100% 100%;
   .title {
     text-align: center;
-    height: 50px;
-    line-height: 50px;
+    width: 5.99vw;
+    height: 2.24vw;
+    line-height: 2.24vw;
+    background: url("../../assets/image/treeHeader.png") no-repeat 0 0 / 100% 100%;
+    font-size: 18px;
+    letter-spacing: 1px;
     font-weight: bolder;
   }
-  .ant-tree {
-    padding: 10px;
-    background: unset;
-    color: #fff;
-    height: calc(100% - 70px);
-    overflow: auto;
-    ::ng-deep .ant-tree-node-selected {
+  .tree-content{
+    background: url("../../assets/image/silder.png") no-repeat 0 0 / 100% 100%;
+    height: calc(100% - 2.24vw);
+    margin-top: -1.25vw;
+    .ant-tree {
+      padding: 10px;
       background: unset;
-      color: #20a0ff;
-    }
-    ::ng-deep .ant-tree-node-selected:hover {
-      background: unset;
-    }
-    ::ng-deep .ant-tree-node-content-wrapper:hover {
-      // color: #20a0ff;
-      background: unset;
-    }
-    ::ng-deep .ant-tree-node-content-wrapper {
-      width: 80%;
-    }
-    ::ng-deep .ant-tree-treenode:hover {
-      background: #0f2239;
+      color: #fff;
+      height: 100%;
+      overflow: auto;
+      ::ng-deep .ant-tree-node-selected {
+        background: unset;
+        color: #20a0ff;
+      }
+      ::ng-deep .ant-tree-node-selected:hover {
+        background: unset;
+      }
+      ::ng-deep .ant-tree-node-content-wrapper:hover {
+        // color: #20a0ff;
+        background: unset;
+      }
+      ::ng-deep .ant-tree-node-content-wrapper {
+        width: 80%;
+      }
+      ::ng-deep .ant-tree-treenode:hover {
+        background: #0f2239;
+      }
     }
   }
+  
 }
 .node-line {
   // width: 80%;
