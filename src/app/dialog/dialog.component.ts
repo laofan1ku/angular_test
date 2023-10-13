@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-12 17:51:31
+ * @LastEditTime: 2023-10-13 09:42:47
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -56,7 +56,7 @@ export class dialogComponent implements OnInit {
     },
   ];
   isVisible: boolean = false;
-  preVisible: boolean = true;
+  preVisible: boolean = false;
   total: number = 0;
   list: listType[] = [];
   loading: boolean = false;
