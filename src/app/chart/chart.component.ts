@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-09-26 17:40:33
+ * @LastEditTime: 2023-10-13 11:28:13
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -198,8 +198,14 @@ export class chartComponent implements OnInit {
   }
   getPerOptions() {
     this.perOptions = {
+      title: {
+        text: 'Referer of a Website',
+        textStyle: {
+          color: '#fff',
+        },
+      },
       legend: {
-        top: 'bottom',
+        top: 'top',
         textStyle: {
           color: '#fff',
         },
@@ -220,9 +226,6 @@ export class chartComponent implements OnInit {
             { value: 32, name: 'rose 3' },
             { value: 30, name: 'rose 4' },
             { value: 28, name: 'rose 5' },
-            { value: 26, name: 'rose 6' },
-            { value: 22, name: 'rose 7' },
-            { value: 18, name: 'rose 8' },
           ],
         },
       ],
@@ -230,6 +233,12 @@ export class chartComponent implements OnInit {
   }
   getScatterOptions() {
     this.scatterOptions = {
+      title: {
+        text: 'Referer of a Website',
+        textStyle: {
+          color: '#fff',
+        },
+      },
       xAxis: {
         axisLabel: {
           textStyle: {

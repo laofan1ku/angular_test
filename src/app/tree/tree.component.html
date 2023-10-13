@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-13 11:03:39
+ * @LastEditTime: 2023-10-13 11:41:21
  * @Description: 请填写简介
 -->
 <div class="treeBox height_100 pad_r_20 dis-flex flex-dir-column align-items">
@@ -11,6 +11,7 @@
     <nz-tree
       *ngIf="nodes[0].children.length"
       [nzData]="nodes"
+      nzShowLine
       [nzSelectedKeys]="defaultSelectedKeys"
       (nzClick)="nzEvent($event)"
       [nzTreeTemplate]="nzTreeTemplate"

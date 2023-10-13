@@ -10,8 +10,9 @@
     font-weight: bolder;
   }
   .tree-content{
+    padding: 15px 0;
     background: url("../../assets/image/silder.png") no-repeat 0 0 / 100% 100%;
-    height: calc(100% - 2.24vw);
+    height: calc(100% - 2.24vw + 1.24vw);
     margin-top: -1.25vw;
     .ant-tree {
       padding: 10px;
@@ -36,22 +37,32 @@
       ::ng-deep .ant-tree-treenode:hover {
         background: #0f2239;
       }
+      ::ng-deep .ant-tree-switcher{
+        background: none;
+        line-height: 34px;
+      }
     }
   }
   
 }
 .node-line {
-  // width: 80%;
+  color: #a2d4f3;
+  font-size: 0.833vw;
+  border: 0.052vw #216180 solid;
+  text-align: center;
+  border-radius: 0.156vw;
+  margin: 0.26vw 0;
+  background: #0b1d2e;
 }
 :host::ng-deep ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 0.417vw;
+  height: 0.417vw;
 }
 :host::ng-deep ::-webkit-scrollbar-track {
   background: #0c1d36;
-  border-radius: 4px;
+  border-radius: 0.208vw;
 }
 :host::ng-deep ::-webkit-scrollbar-thumb {
-  border-radius: 4px;
+  border-radius: 0.208vw;
   background: #3d4a5e;
 }

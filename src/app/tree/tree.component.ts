@@ -1,8 +1,8 @@
 /*
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
- * @LastEditors: 老范
- * @LastEditTime: 2023-10-07 09:44:35
+ * @LastEditors: liukun
+ * @LastEditTime: 2023-10-13 13:20:03
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -18,22 +18,70 @@ import { CommunicateService } from '@/app/communicate.service';
 export class treeComponent implements OnInit {
   nodes = [
     {
-      title: 'test',
+      title: 'mongoDB',
       key: 'test',
       expanded: true,
-      children: [],
+      children: [
+        {
+          title: 'xxxxxxxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+      ],
+    },
+    {
+      title: 'mysql',
+      key: 'test1',
+      expanded: true,
+      children: [
+        {
+          title: 'xxxxxxxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+      ],
     },
   ];
   defaultSelectedKeys = ['0-0-0'];
   constructor(private myService: MyService, private cs: CommunicateService) {}
   ngOnInit(): void {
-    this.myService.getTreeListApi().subscribe((res) => {
-      const data = res.data.map((i: any) => {
-        return { title: i, key: i, isLeaf: true };
-      });
-      this.nodes[0].children = data;
-      this.defaultSelectedKeys = this.nodes[0].children[0];
-    });
+    // this.myService.getTreeListApi().subscribe((res) => {
+    //   const data = res.data.map((i: any) => {
+    //     return { title: i, key: i, isLeaf: true };
+    //   });
+    //   this.nodes[0].children = data;
+    //   this.defaultSelectedKeys = this.nodes[0].children[0];
+    // });
   }
   nzEvent(event: NzFormatEmitEvent): void {
     const { keys, node } = event;
