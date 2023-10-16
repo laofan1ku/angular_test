@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 15:02:27
  * @LastEditors: 老范
- * @LastEditTime: 2023-10-12 13:56:23
+ * @LastEditTime: 2023-10-16 15:18:07
  * @Description: 请填写简介
  */
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,6 +21,8 @@ import { chartModule } from './chart/chart.module';
 /** 配置 angular i18n **/
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
+// 拦截器
+import { ServiceModule } from '@/app/service/service.module';
 registerLocaleData(zh);
 
 @NgModule({
@@ -35,9 +37,10 @@ registerLocaleData(zh);
     treeModule,
     dialogModule,
     chartModule,
+    ServiceModule,
   ],
   bootstrap: [AppComponent],
   /** 配置 ng-zorro-antd 国际化（文案 及 日期） **/
-  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
+  providers: [{ provide: NZ_I18N, useValue: zh_CN }, ServiceModule],
 })
 export class AppModule {}

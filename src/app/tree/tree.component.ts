@@ -2,13 +2,13 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: 老范
- * @LastEditTime: 2023-10-13 15:31:39
+ * @LastEditTime: 2023-10-16 13:26:35
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
-// import { MyService } from '@/api/main';
-import { MyService } from '@/api/main';
+// import { MainService } from '@/api/main';
+import { MainService } from '@/api/main';
 import { CommunicateService } from '@/app/communicate.service';
 @Component({
   selector: 'app-tree',
@@ -73,15 +73,15 @@ export class treeComponent implements OnInit {
     },
   ];
   defaultSelectedKeys = ['0-0-0'];
-  constructor(private myService: MyService, private cs: CommunicateService) {}
+  constructor(private myService: MainService, private cs: CommunicateService) {}
   ngOnInit(): void {
-    // this.myService.getTreeListApi().subscribe((res) => {
-    //   const data = res.data.map((i: any) => {
-    //     return { title: i, key: i, isLeaf: true };
-    //   });
-    //   this.nodes[0].children = data;
-    //   this.defaultSelectedKeys = this.nodes[0].children[0];
-    // });
+    this.myService.getTreeListApi().subscribe((res) => {
+      const data = res.data.map((i: any) => {
+        return { title: i, key: i, isLeaf: true };
+      });
+      this.nodes[0].children = data;
+      // this.defaultSelectedKeys = this.nodes[0].children[0];
+    });
   }
   nzEvent(event: NzFormatEmitEvent): void {
     console.log('event', event);

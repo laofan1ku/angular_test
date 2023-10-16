@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 import * as ace from 'ace-builds';
 import 'ace-builds/src-noconflict/theme-monokai'; // 语言模式
 import 'ace-builds/src-noconflict/mode-json'; // 语言模式
-import { MyService } from '../../api/main';
+import { MainService } from '../../api/main';
 import { CommunicateService } from '../communicate.service';
 interface listType {
   _id: string;
@@ -66,7 +66,7 @@ export class dialogComponent implements OnInit {
     pageSize: 10,
   };
   editor: any = null;
-  constructor(private myService: MyService, private cs: CommunicateService) {}
+  constructor(private myService: MainService, private cs: CommunicateService) {}
   ngOnInit(): void {
     // 点击后将触发该订阅  获取数据并渲染，打开弹框
     this.cs.ob.subscribe((msg) => {

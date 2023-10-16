@@ -2,7 +2,7 @@
  * @Author: liukun
  * @Date: 2023-09-27 10:22:40
  * @LastEditors: 老范
- * @LastEditTime: 2023-10-07 15:16:46
+ * @LastEditTime: 2023-10-16 14:34:25
  * @FilePath: \PROJECT_NAME\src\api\main.ts
  * @Description:
  *
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class MyService {
+export class MainService {
   private apiUrl = (window as any).getWinConfig().server;
   constructor(private http: HttpClient) {}
   // 树形列表
