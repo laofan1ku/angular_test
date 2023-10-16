@@ -2,7 +2,7 @@
  * @Author: liukun
  * @Date: 2023-09-26 13:33:14
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-12 16:27:27
+ * @LastEditTime: 2023-10-16 15:19:07
  * @FilePath: \501-aq-pro\src\app\dialog\dialog.component.html
  * @Description: 
  * 
@@ -11,49 +11,54 @@
   <nz-modal
     [(nzVisible)]="isVisible"
     [nzFooter]="null"
-    (nzOnCancel)="handleCancel()"
-    (nzOnOk)="handleOk()"
-    nzWidth="60%"
-    [nzStyle]="{top:'15%',}"
+    [nzClosable]="false"
+    [nzStyle]="{
+      minHeight: '560px',
+      maxHeight: '750px',
+    }"
+    nzWidth="700px"
   >
     <ng-container *nzModalContent>
-      <div class="dis-flex flex-x-end mar_b_10 mar_t_20">
-        <button
-          nz-button
-          nzType="primary"
-          class="mar_r_10"
-          (click)="downLoadFile('JSON')"
-        >
-          <span nz-icon nzType="download"></span>
-          下载JSON文件
-        </button>
-        <button nz-button nzType="primary" (click)="downLoadFile('CSV')">
-          <span nz-icon nzType="download"></span>
-          下载CSV文件
-        </button>
-      </div>
-      <nz-table
-        #basicTable
-        [nzData]="list"
-        [nzLoading]="loading"
-        [nzShowPagination]="false"
+      <div
+        class="dis-flex align-items flex-x-between mar_b_10 pad_h_10 content-header"
       >
-        <thead>
-          <tr>
-            <th>当前时间</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of basicTable.data">
-            <td>{{ data.currenttime }}</td>
-            <td>
-              <a (click)="preview(data.SimData)">查看</a>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table>
-      <div class="mar_t_10 dis-flex flex-x-center">
+        <div class="col_f f-15 pad_l_30">xxxxxxxxxxxxx</div>
+        <div class="dis-flex">
+          <div
+            class="download-config-btn mar_r_10 pointer"
+            (click)="downloadConfig()"
+          >
+            <span nz-icon nzType="download" nzTheme="outline"></span>下载设置
+            <div class="arrows" *ngIf="showDownloadConfig"></div>
+          </div>
+          <div class="close pointer" (click)="handleClose()">
+            <span nz-icon nzType="close" nzTheme="outline"></span>
+          </div>
+        </div>
+      </div>
+      <div class="table">
+        <div class="table-header dis-flex pad_v_10">
+          <div class="flex-box text-align">当前时间</div>
+          <div class="flex-box text-align">操作</div>
+        </div>
+        <div class="table-body col_f">
+          <div
+            class="table-row dis-flex pad_v_5 align-items"
+            *ngFor="let data of list; let i = index"
+            [ngClass]="i % 2 === 0 ? 'zebra-color' : ''"
+          >
+            <div class="table-row-td flex-box text-align">
+              {{ data.currenttime }}
+            </div>
+            <div class="table-row-td flex-box text-align">
+              <span class="view-data pointer" (click)="preview(data.SimData)"
+                >查看</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mar_t_10 dis-flex flex-x-center pagination">
         <!-- nzShowSizeChanger -->
         <nz-pagination
           [nzPageIndex]="listQuery.pageIndex"
@@ -63,6 +68,101 @@
           (nzPageSizeChange)="handleChangeSize($event)"
         ></nz-pagination>
       </div>
+      <div
+        class="download-config-box"
+        [ngStyle]="{ display: showDownloadConfig ? 'block' : 'none' }"
+      >
+        <form nz-form [formGroup]="validateForm" class="form">
+          <nz-form-item>
+            <nz-form-label><span class="circle"></span> 时间筛选</nz-form-label>
+            <nz-form-control class="picker-control">
+              <nz-date-picker
+                nzShowTime
+                formControlName="startTime"
+              ></nz-date-picker>
+              <div class="divider"></div>
+              <nz-date-picker
+                nzShowTime
+                formControlName="endTime"
+              ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label><span class="circle"></span>模型名称</nz-form-label>
+            <nz-form-control [nzSm]="12" [nzXs]="18">
+              <input
+                formControlName="modelName"
+                nz-input
+                placeholder="请输入模型名称"
+              />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label><span class="circle"></span>关键字</nz-form-label>
+            <nz-form-control [nzSm]="12" [nzXs]="18">
+              <input
+                formControlName="paramsName"
+                nz-input
+                placeholder="请输入关键字"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+        <div class="select-box">
+          <div class="header dis-flex">
+            <div class="mar_r_10">
+              <span class="circle"></span>
+              <span>模型选择</span>
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="content">
+            <nz-checkbox-wrapper
+              style="width: 100%; display: flex; flex-wrap: wrap"
+              (nzOnChange)="checkoutChange($event)"
+            >
+              <div class="item mar_r_20 mar_b_5" *ngFor="let item of modelList">
+                <span class="mar_r_5 col_f f-8">{{ item.name }}</span
+                ><label nz-checkbox [nzValue]="item.id"></label>
+              </div>
+            </nz-checkbox-wrapper>
+          </div>
+        </div>
+        <div class="select-box">
+          <div class="header dis-flex">
+            <div class="mar_r_10">
+              <span class="circle"></span>
+              <span>参数选择</span>
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="content">
+            <nz-checkbox-wrapper
+              style="width: 100%; display: flex; flex-wrap: wrap"
+              (nzOnChange)="checkoutChange($event)"
+            >
+              <div class="item mar_r_20 mar_b_5" *ngFor="let item of modelList">
+                <span class="mar_r_5 col_f f-8">{{ item.name }}</span
+                ><label nz-checkbox [nzValue]="item.id"></label>
+              </div>
+            </nz-checkbox-wrapper>
+          </div>
+        </div>
+        <div class="download-btn-box dis-flex flex-x-center">
+          <div
+            class="download-config-btn pointer mar_r_20"
+            (click)="downLoadFile('JSON')"
+          >
+            下载JSON文件
+          </div>
+          <div
+            class="download-config-btn pointer"
+            (click)="downLoadFile('CSV')"
+          >
+            下载CSV文件
+          </div>
+        </div>
+      </div>
     </ng-container>
   </nz-modal>
   <nz-modal
@@ -71,16 +171,14 @@
     nzWidth="50%"
     [nzFooter]="null"
     (nzAfterOpen)="preAfterOpen()"
+    [nzClosable]="false"
     [nzStyle]="{
-      top: '17%',
-      minHeight: '70%',
-      maxHeight: '70%',
+      height: '700px',
       overflow: 'auto'
     }"
   >
     <ng-container *nzModalContent>
-      <!-- <ngx-json-viewer [json]="jsonData" [expanded]="false"></ngx-json-viewer> -->
-      <div id="editor" style="height: 400px; width: 100%"></div>
+      <div id="editor"></div>
     </ng-container>
   </nz-modal>
 </div>

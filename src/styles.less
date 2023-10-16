@@ -1,2 +1,65 @@
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
 @import url('./assets/css/main.css');
+:root{
+  --font-color-white: white;
+  --white: #fff;
+  --border-rdius-5: 5px;
+  --input-border-color: #4d7ec1;
+  --avtive-bg-color: #1061bc;
+  --input-bg-color: #194f99;
+    ::-webkit-scrollbar {
+        width: 0.417vw;
+        height: 0.417vw;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0c1d36;
+        border-radius: 0.208vw;
+      }
+      ::-webkit-scrollbar-thumb {
+        border-radius: 0.208vw;
+        background: #3d4a5e;
+      }
+}
+.ant-pagination-item, 
+.ant-pagination-prev, 
+.ant-pagination-next {
+  background: transparent;
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--border-rdius-5);
+  a, button{
+    color: var(--font-color-white);
+  }
+  .ant-pagination-item-link{
+    background: transparent;
+    border: unset;
+  }
+}
+.ant-pagination-item-ellipsis{
+  color: #4477ba !important;
+}
+.ant-pagination-item-active {
+  background: var(--avtive-bg-color);
+}
+.ant-picker, .ant-input{
+  background-color: var(--input-bg-color);
+  border-color: var(--input-border-color);
+  color: var(--font-color-white)
+}
+.ant-picker-suffix{
+  color: var(--font-color-white)
+}
+.ant-form-item-control-input-content{
+  display: flex;
+  align-items: center;
+  input{
+    background-color: var(--input-bg-color);
+    border-color:var(--input-border-color);
+    color:var(--font-color-white)
+  }
+}
+.ant-checkbox-inner {
+  width: 18px;
+  height: 18px;
+  background: #144587;
+  border: 1px solid #396eb4;
+}
