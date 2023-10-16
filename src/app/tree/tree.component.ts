@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: 老范
- * @LastEditTime: 2023-10-16 16:44:02
+ * @LastEditTime: 2023-10-16 17:12:06
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -73,9 +73,12 @@ export class treeComponent implements OnInit {
     },
   ];
   defaultSelectedKeys = ['0-0-0'];
-  constructor(private myService: MainService, private cs: CommunicateService) {}
+  constructor(
+    private MainService: MainService,
+    private cs: CommunicateService
+  ) {}
   ngOnInit(): void {
-    this.myService.getTreeListApi().subscribe((res) => {
+    this.MainService.getTreeListApi().subscribe((res) => {
       const data = res.map((i: any) => {
         return { title: i, key: i, isLeaf: true };
       });

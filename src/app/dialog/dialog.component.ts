@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: 老范
- * @LastEditTime: 2023-10-16 17:07:10
+ * @LastEditTime: 2023-10-16 17:11:49
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -80,7 +80,7 @@ export class dialogComponent implements OnInit {
   });
   modelList: any[] = [];
   constructor(
-    private myService: MyService,
+    private MainService: MainService,
     private cs: CommunicateService,
     private fb: NonNullableFormBuilder
   ) {}
@@ -138,7 +138,7 @@ export class dialogComponent implements OnInit {
   // 表格数据
   getList() {
     this.loading = true;
-    this.myService.getDocumentsApi(this.listQuery).subscribe((res) => {
+    this.MainService.getDocumentsApi(this.listQuery).subscribe((res) => {
       console.log('res', res);
 
       this.list = res.data;
@@ -161,9 +161,9 @@ export class dialogComponent implements OnInit {
   }
   // 下载文件
   downLoadFile(type: string) {
-    this.myService[type === 'JSON' ? 'exportFileJSONApi' : 'exportFileCSVApi'](
-      this.listQuery.tableName
-    ).subscribe((res) => {
+    this.MainService[
+      type === 'JSON' ? 'exportFileJSONApi' : 'exportFileCSVApi'
+    ](this.listQuery.tableName).subscribe((res) => {
       if (type === 'CSV') this.downloadCSVFile(res);
       else this.downloadJsonFile(JSON.stringify(res));
     });
