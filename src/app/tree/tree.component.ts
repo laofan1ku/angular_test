@@ -1,8 +1,8 @@
 /*
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
- * @LastEditors: 老范
- * @LastEditTime: 2023-10-13 15:31:39
+ * @LastEditors: liukun
+ * @LastEditTime: 2023-10-16 09:20:31
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -49,6 +49,66 @@ export class treeComponent implements OnInit {
       key: 'test1',
       expanded: true,
       children: [
+        {
+          title: 'xxxxxxxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
+        {
+          title: 'xxxxxxxxxxx',
+          key: 'xxxxxxxxxxx',
+          isLeaf: true,
+        },
         {
           title: 'xxxxxxxxxxxxxxxxx',
           key: 'xxxxxxxxxxx',

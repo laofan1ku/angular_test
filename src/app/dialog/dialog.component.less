@@ -1,24 +1,77 @@
   ::ng-deep.ant-modal-content{
-    height: 100%;
     .ant-modal-body{
       padding: 2px;
       background: url('../../assets/image/dialogBg.png') no-repeat 0 0 / 100% 100%;
-      height: 100%;
       background-color: #162d63;
+      position: relative;
+      .table{
+        .table-header{
+            background: #132e63;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bolder;
+            letter-spacing: 1px;
+        }
+        .table-body{
+          height: 26.042vw;
+          overflow-y: auto;
+                .zebra-color{
+                    background: #163d78;
+                }
+        }
+      }
+      .download-config-box{
+        position: absolute;
+        top: 50px;
+        left: 0;
+        border: 1px solid #1d579b;
+        border-radius: 5px;
+        width: 96%;
+        margin: 0 calc((100% - 96%) / 2);
+        background: #103a74;
+        color: #fff;
+        opacity: .95;
+        ::ng-deep label{
+          color: #fff;
+        }
+        .form{
+          background: #164386;
+          border-bottom: 1px solid #1d579b;
+          padding: 10px 15px 0;
+        }
+        .select-box{
+          padding: 10px 0 10px 15px;
+          .header{
+            .divider{
+              border-top: 1px solid #1d579b;
+              width: 80%;
+              transform: translateY(50%);
+            }
+          }
+          .content{
+            padding: 10px 5px;
+            max-height: 7.552vw;
+            overflow-y: auto;
+          }
+        }
+        .download-btn-box{
+          border-top: 1px solid #1d579b;
+          padding: 10px 0;
+        }
+        .picker-control{
+          .divider{
+            width: 30px;
+            height: 3px;
+            background: #6faff7;
+            margin: 0 10px;
+          }
+        }
+      }
       .content-header{
           height: 40px;
           background: #13519e;
-          .donwload-config, .close{
-              color: #dbeafb;
-              border: 1px #61a2ed solid;
-              font-size: 14px;
-              border-radius: 5px;
-              padding: 1px 7px;
-              background-color: rgb(38, 102, 178);
-          }
-          .donwload-config:hover, .close:hover{
-              background-color: rgba(38, 102, 178, .5);
-          }
+          
+          
       }
   }
   } 
@@ -33,62 +86,10 @@
     border-radius: 5px;
     color: #fff;
 }
-.table{
-  height: calc(100% - 50px - 83px);
-    .table-header{
-        background: #132e63;
-        color: #fff;
-        font-size: 16px;
-        font-weight: bolder;
-        letter-spacing: 1px;
-    }
-    .table-body{
-      // height: calc(100% - 45px);
-      height: 500px;
-      ::-webkit-scrollbar {
-        width: 0.417vw;
-        height: 0.417vw;
-      }
-      ::-webkit-scrollbar-track {
-        background: #0c1d36;
-        border-radius: 0.208vw;
-      }
-      ::-webkit-scrollbar-thumb {
-        border-radius: 0.208vw;
-        background: #3d4a5e;
-      }
-      overflow-y: auto;
-            .zebra-color{
-                background: #163d78;
-            }
-    }
-}
+
 .pagination {
     padding: 20px 0;
     border-top: 1px solid #1e508f;
-  
-    &::ng-deep.ant-pagination-item,
-    &::ng-deep.ant-pagination-prev,
-    &::ng-deep.ant-pagination-next {
-      background: transparent;
-      border: 1px solid #4d7ec1;
-      border-radius: 5px;
-      a, button{
-        color: #fff;
-      }
-      button{
-        background: transparent;
-        border: unset;
-      }
-    }
-  
-    &::ng-deep.ant-pagination-item-ellipsis {
-      color: #4477ba;
-    }
-  
-    &::ng-deep.ant-pagination-item-active {
-      background: #1061bc;
-    }
   }
 .table-tobdy-tr:hover{
     background: none !important;
@@ -96,4 +97,36 @@
 #editor{
   width: 100%;
   height: 100%;
+}
+.circle{
+  background: #1b6dc3;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+.download-config-btn, .close{
+  color: #dbeafb;
+  border: 1px #61a2ed solid;
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 1px 7px;
+  background-color: rgb(38, 102, 178);
+  
+}
+.download-config-btn{
+  position: relative;
+}
+.arrows{
+  background: url('../../assets/image/arrows.png') no-repeat 0 0 / 100% 100%;
+  width: 25px;
+  height: 17px;
+  position: absolute;
+  bottom: calc(0 - 17px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.download-config-btn:hover, .close:hover{
+  background-color: rgba(38, 102, 178, .5);
 }

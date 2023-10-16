@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-13 17:57:21
+ * @LastEditTime: 2023-10-16 15:12:23
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -11,6 +11,7 @@ import 'ace-builds/src-noconflict/theme-monokai'; // 语言模式
 import 'ace-builds/src-noconflict/mode-json'; // 语言模式
 import { MyService } from '../../api/main';
 import { CommunicateService } from '../communicate.service';
+import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 interface listType {
   currenttime: number;
   SimData: any[];
@@ -56,6 +57,7 @@ export class dialogComponent implements OnInit {
   ];
   isVisible: boolean = false;
   preVisible: boolean = false;
+  showDownloadConfig: boolean = false;
   total: number = 100;
   list: listType[] = [];
   loading: boolean = false;
@@ -65,13 +67,33 @@ export class dialogComponent implements OnInit {
     pageSize: 10,
   };
   editor: any = null;
-  constructor(private myService: MyService, private cs: CommunicateService) {}
+  validateForm: FormGroup<{
+    startTime: FormControl<string>;
+    endTime: FormControl<string>;
+    modelName: FormControl<string>;
+    paramsName: FormControl<string>;
+  }> = this.fb.group({
+    startTime: [''],
+    endTime: [''],
+    modelName: [''],
+    paramsName: [''],
+  });
+  modelList: any[] = [];
+  constructor(
+    private myService: MyService,
+    private cs: CommunicateService,
+    private fb: NonNullableFormBuilder
+  ) {}
   ngOnInit(): void {
     for (let index = 0; index < 20; index++) {
       this.list.push({
         currenttime: Date.now(),
         SimData: [],
         index: index,
+      });
+      this.modelList.push({
+        id: index,
+        name: '循迹导弹' + index,
       });
     }
     this.isVisible = true;
@@ -110,10 +132,7 @@ export class dialogComponent implements OnInit {
     // 默认折叠 JSON 数据
     editor.session.foldAll(1); // 1 表示折叠
   }
-  handleCancel() {
-    this.isVisible = false;
-  }
-  handleOk() {
+  handleClose() {
     this.isVisible = false;
   }
   // 表格数据
@@ -126,6 +145,14 @@ export class dialogComponent implements OnInit {
       this.total = res.total;
       this.loading = false;
     });
+  }
+  // 多选
+  checkoutChange(value: number[]): void {
+    console.log(value);
+  }
+  // 显示现在设置
+  downloadConfig() {
+    this.showDownloadConfig = !this.showDownloadConfig;
   }
   // 预览
   preview(data: any) {
