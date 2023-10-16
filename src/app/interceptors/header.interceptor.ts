@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-10-16 13:56:57
  * @LastEditors: 老范
- * @LastEditTime: 2023-10-16 15:17:33
+ * @LastEditTime: 2023-10-16 16:46:28
  * @Description: 请填写简介
  */
 import { Injectable } from '@angular/core';
@@ -29,10 +29,10 @@ export class HeaderInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log(
-      '🚀 ~ file: header.interceptor.ts:32 ~ HeaderInterceptor ~ req:',
-      req
-    );
+    // console.log(
+    //   '🚀 ~ file: header.interceptor.ts:32 ~ HeaderInterceptor ~ req:',
+    //   req
+    // );
     // 处理url地址的问题
     // const url = this._url(req.url);
     // if (this.ignoreToken(req.url)) {

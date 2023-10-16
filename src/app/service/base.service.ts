@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-10-16 14:00:58
  * @LastEditors: 老范
- * @LastEditTime: 2023-10-16 14:20:23
+ * @LastEditTime: 2023-10-16 16:59:54
  * @Description: http请求封装
  */
 import { Injectable } from '@angular/core';
@@ -16,6 +16,7 @@ type ObjectType = Record<string, any>;
   providedIn: 'root',
 })
 export class BaseService {
+  private apiUrl = (window as any).getWinConfig().server;
   constructor(private readonly http: HttpClient) {}
 
   /**
@@ -33,7 +34,7 @@ export class BaseService {
       responseType?: any;
     }
   ): Observable<unknown> {
-    // url = urlParams ? `${url}/?${object2str(urlParams)}` : url;
+    url = `${this.apiUrl}${url}`;
     const $params: HttpParams = new HttpParams({
       fromObject: options?.params ?? {},
     });

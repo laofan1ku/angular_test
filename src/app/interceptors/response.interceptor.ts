@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-10-16 14:29:35
  * @LastEditors: 老范
- * @LastEditTime: 2023-10-16 14:30:44
+ * @LastEditTime: 2023-10-16 16:42:22
  * @Description: 响应拦截器
  */
 import { Injectable } from '@angular/core';
@@ -15,9 +15,11 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
+const successCodeAry: number[] = [200, 201, 202, 204];
 @Injectable()
 export class ResponseHandlerInterceptor implements HttpInterceptor {
   constructor(
@@ -31,26 +33,15 @@ export class ResponseHandlerInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       filter((event: any) => {
+        // console.log(
+        //   '🚀 ~ file: response.interceptor.ts:47 ~ ResponseHandlerInterceptor ~ filter ~ event:',
+        //   event
+        // );
         if (event instanceof HttpResponse) {
-          const status = event.status;
-          const body = event.body;
           // 请求成功的时候
-          if (status >= 200 && status < 300) {
-            const currentUrl: string = event.url ?? '';
-            const { code, message } = body;
-            if (!Object.is(code, 0)) {
-              // token失效跳转到登录页面
-              if (Object.is(code, 10042)) {
-                this.message.create('warning', message);
-                setTimeout(() => {
-                  this.router.navigateByUrl('/');
-                });
-              } else {
-                // TODO是否要在这里弹出一个错误提示
-                this.message.error(message);
-              }
-              return false;
-            }
+          if (successCodeAry.includes(event.status)) {
+            // const { message } = body;
+            // this.message.success(message);
             return true;
           } else {
             return true;
@@ -59,9 +50,7 @@ export class ResponseHandlerInterceptor implements HttpInterceptor {
           return false;
         }
       }),
-      map((event: HttpResponse<any>) =>
-        event.clone({ body: event.body.result })
-      )
+      map((event: HttpResponse<any>) => event.clone({ body: event.body.data }))
     );
   }
 }

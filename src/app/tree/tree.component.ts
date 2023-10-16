@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: 老范
- * @LastEditTime: 2023-10-16 13:26:35
+ * @LastEditTime: 2023-10-16 16:44:02
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -22,26 +22,26 @@ export class treeComponent implements OnInit {
       key: 'test',
       expanded: true,
       children: [
-        {
-          title: 'xxxxxxxxxxxxxxxxx',
-          key: 'xxxxxxxxxxx',
-          isLeaf: true,
-        },
-        {
-          title: 'xxxxxxxxxxxxxx',
-          key: 'xxxxxxxxxxx',
-          isLeaf: true,
-        },
-        {
-          title: 'xxxxxxxxxxxx',
-          key: 'xxxxxxxxxxx',
-          isLeaf: true,
-        },
-        {
-          title: 'xxxxxxxxxxx',
-          key: 'xxxxxxxxxxx',
-          isLeaf: true,
-        },
+        // {
+        //   title: 'xxxxxxxxxxxxxxxxx',
+        //   key: 'xxxxxxxxxxx',
+        //   isLeaf: true,
+        // },
+        // {
+        //   title: 'xxxxxxxxxxxxxx',
+        //   key: 'xxxxxxxxxxx',
+        //   isLeaf: true,
+        // },
+        // {
+        //   title: 'xxxxxxxxxxxx',
+        //   key: 'xxxxxxxxxxx',
+        //   isLeaf: true,
+        // },
+        // {
+        //   title: 'xxxxxxxxxxx',
+        //   key: 'xxxxxxxxxxx',
+        //   isLeaf: true,
+        // },
       ],
     },
     {
@@ -76,7 +76,7 @@ export class treeComponent implements OnInit {
   constructor(private myService: MainService, private cs: CommunicateService) {}
   ngOnInit(): void {
     this.myService.getTreeListApi().subscribe((res) => {
-      const data = res.data.map((i: any) => {
+      const data = res.map((i: any) => {
         return { title: i, key: i, isLeaf: true };
       });
       this.nodes[0].children = data;
