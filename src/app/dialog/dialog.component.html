@@ -2,7 +2,7 @@
  * @Author: liukun
  * @Date: 2023-09-26 13:33:14
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-17 11:22:38
+ * @LastEditTime: 2023-10-17 13:41:31
  * @FilePath: \501-aq-pro\src\app\dialog\dialog.component.html
  * @Description: 
  * 
@@ -93,7 +93,7 @@
               <input
                 formControlName="modelName"
                 nz-input
-                (keydown.enter)="onEnterPressed()"
+                (keydown.enter)="search()"
                 placeholder="请输入模型名称"
               />
             </nz-form-control>
@@ -104,7 +104,7 @@
               <input
                 formControlName="paramsName"
                 nz-input
-                (keydown.enter)="onEnterPressed()"
+                (keydown.enter)="search()"
                 placeholder="请输入关键字"
               />
             </nz-form-control>
@@ -112,7 +112,7 @@
           <nz-form-item class="mar_b_10">
             <nz-form-control>
               <div class="dis-flex flex-x-end" style="width: 100%">
-                <button nz-button nzType="primary">
+                <button nz-button nzType="primary" (click)="search()">
                   <span nz-icon nzType="search"></span>
                   搜索
                 </button>
@@ -130,6 +130,7 @@
                 <label
                   nz-checkbox
                   [(ngModel)]="item.allChecked"
+                  [nzDisabled]="!(item.list.length > 0)"
                   [nzIndeterminate]="item.indeterminate"
                   (ngModelChange)="updateAllChecked(item.id)"
                   style="color: #79bbff"

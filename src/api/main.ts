@@ -1,9 +1,9 @@
 /*
  * @Author: liukun
  * @Date: 2023-09-27 10:22:40
- * @LastEditors: 老范
- * @LastEditTime: 2023-10-16 16:58:52
- * @FilePath: \PROJECT_NAME\src\api\main.ts
+ * @LastEditors: liukun
+ * @LastEditTime: 2023-10-17 13:34:35
+ * @FilePath: \501-aq-pro\src\api\main.ts
  * @Description: 后端接口封装文件
  *
  */
@@ -40,5 +40,8 @@ export class MainService {
     return this.baseService.get(`exportJSON`, {
       params,
     });
+  }
+  getModelListApi(listQuery: any): Observable<any> {
+    return this.baseService.get('getDataTableNames', { params: listQuery });
   }
 }

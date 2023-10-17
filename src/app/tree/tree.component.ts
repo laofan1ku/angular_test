@@ -2,10 +2,10 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-17 11:40:18
+ * @LastEditTime: 2023-10-17 13:48:16
  * @Description: 请填写简介
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 // import { MainService } from '@/api/main';
 import { MainService } from '@/api/main';
@@ -74,6 +74,7 @@ export class treeComponent implements OnInit {
   ];
   defaultSelectedKeys = ['0-0-0'];
   constructor(
+    private cdr: ChangeDetectorRef,
     private MainService: MainService,
     private cs: CommunicateService
   ) {}
@@ -83,6 +84,7 @@ export class treeComponent implements OnInit {
         return { title: i, key: i, isLeaf: true };
       });
       this.nodes[0].children = data;
+      this.cdr.detectChanges();
       // this.defaultSelectedKeys = this.nodes[0].children[0];
     });
   }

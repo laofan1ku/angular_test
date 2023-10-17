@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-17 11:40:00
+ * @LastEditTime: 2023-10-17 13:55:53
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -113,29 +113,27 @@ export class dialogComponent implements OnInit {
     private fb: NonNullableFormBuilder
   ) {}
   ngOnInit(): void {
-    for (let index = 0; index < random(1, 20); index++) {
-      this.selectList[0].list.push({
-        value: index,
-        label: '循迹导弹' + index,
-        checked: false,
-      });
-    }
-    for (let index = 0; index < random(1, 20); index++) {
-      this.selectList[1].list.push({
-        value: index,
-        label: 'key_' + index,
-        checked: false,
-      });
-    }
+    setTimeout(() => {
+      for (let index = 0; index < random(1, 20); index++) {
+        this.selectList[0].list.push({
+          value: index,
+          label: '循迹导弹' + index,
+          checked: false,
+        });
+      }
+      for (let index = 0; index < random(1, 20); index++) {
+        this.selectList[1].list.push({
+          value: index,
+          label: 'key_' + index,
+          checked: false,
+        });
+      }
+    }, 10 * 1000);
     this.cs.ob.subscribe((msg) => {
       this.listQuery.tableName = msg;
       this.getList();
       this.isVisible = true;
     });
-  }
-  // 输入框回车事件
-  onEnterPressed() {
-    console.log(this.validateForm.value);
   }
   // 全选更新之后
   updateAllChecked(id: number) {
@@ -201,13 +199,26 @@ export class dialogComponent implements OnInit {
     this.MainService.getDocumentsApi(this.listQuery).subscribe((res) => {
       console.log('res', res);
 
-      this.list = res.data;
-      this.total = res.total;
+      // this.list = res.data;
+      this.list = res;
+      // this.total = res.total;
       this.loading = false;
     });
   }
-  // 模型数据
-  getModelList() {}
+  // 搜索
+  search() {
+    this.MainService.getModelListApi(this.validateForm.value).subscribe(
+      (res) => {
+        this.selectList.forEach((item) => {
+          item.allChecked = false;
+          item.indeterminate = false;
+          item.list.forEach((i) => {
+            i.checked = false;
+          });
+        });
+      }
+    );
+  }
   // 显示现在设置
   downloadConfig() {
     this.showDownloadConfig = !this.showDownloadConfig;
