@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-16 09:20:31
+ * @LastEditTime: 2023-10-16 16:50:42
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -22,26 +22,26 @@ export class treeComponent implements OnInit {
       key: 'test',
       expanded: true,
       children: [
-        {
-          title: 'xxxxxxxxxxxxxxxxx',
-          key: 'xxxxxxxxxxx',
-          isLeaf: true,
-        },
-        {
-          title: 'xxxxxxxxxxxxxx',
-          key: 'xxxxxxxxxxx',
-          isLeaf: true,
-        },
-        {
-          title: 'xxxxxxxxxxxx',
-          key: 'xxxxxxxxxxx',
-          isLeaf: true,
-        },
-        {
-          title: 'xxxxxxxxxxx',
-          key: 'xxxxxxxxxxx',
-          isLeaf: true,
-        },
+        // {
+        //   title: 'xxxxxxxxxxxxxxxxx',
+        //   key: 'xxxxxxxxxxx',
+        //   isLeaf: true,
+        // },
+        // {
+        //   title: 'xxxxxxxxxxxxxx',
+        //   key: 'xxxxxxxxxxx',
+        //   isLeaf: true,
+        // },
+        // {
+        //   title: 'xxxxxxxxxxxx',
+        //   key: 'xxxxxxxxxxx',
+        //   isLeaf: true,
+        // },
+        // {
+        //   title: 'xxxxxxxxxxx',
+        //   key: 'xxxxxxxxxxx',
+        //   isLeaf: true,
+        // },
       ],
     },
     {
@@ -135,13 +135,13 @@ export class treeComponent implements OnInit {
   defaultSelectedKeys = ['0-0-0'];
   constructor(private myService: MyService, private cs: CommunicateService) {}
   ngOnInit(): void {
-    // this.myService.getTreeListApi().subscribe((res) => {
-    //   const data = res.data.map((i: any) => {
-    //     return { title: i, key: i, isLeaf: true };
-    //   });
-    //   this.nodes[0].children = data;
-    //   this.defaultSelectedKeys = this.nodes[0].children[0];
-    // });
+    this.myService.getTreeListApi().subscribe((res) => {
+      const data = res.data.map((i: any) => {
+        return { title: i, key: i, isLeaf: true };
+      });
+      this.nodes[0].children = data;
+      // this.defaultSelectedKeys = this.nodes[0].children[0];
+    });
   }
   nzEvent(event: NzFormatEmitEvent): void {
     console.log('event', event);

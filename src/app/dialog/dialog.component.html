@@ -2,7 +2,7 @@
  * @Author: liukun
  * @Date: 2023-09-26 13:33:14
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-16 15:19:07
+ * @LastEditTime: 2023-10-17 09:26:35
  * @FilePath: \501-aq-pro\src\app\dialog\dialog.component.html
  * @Description: 
  * 
@@ -10,19 +10,18 @@
 <div class="dialogBox">
   <nz-modal
     [(nzVisible)]="isVisible"
+    (nzOnCancel)="isVisible = false"
     [nzFooter]="null"
     [nzClosable]="false"
-    [nzStyle]="{
-      minHeight: '560px',
-      maxHeight: '750px',
-    }"
-    nzWidth="700px"
+    (nzAfterClose)="afterClose()"
+    nzWidth="37%"
   >
     <ng-container *nzModalContent>
       <div
         class="dis-flex align-items flex-x-between mar_b_10 pad_h_10 content-header"
       >
-        <div class="col_f f-15 pad_l_30">xxxxxxxxxxxxx</div>
+        <!-- <span>XXXXXXX</span> -->
+        <div class="col_f f-15 pad_l_30"></div>
         <div class="dis-flex">
           <div
             class="download-config-btn mar_r_10 pointer"
@@ -59,7 +58,6 @@
         </div>
       </div>
       <div class="mar_t_10 dis-flex flex-x-center pagination">
-        <!-- nzShowSizeChanger -->
         <nz-pagination
           [nzPageIndex]="listQuery.pageIndex"
           [nzPageSize]="listQuery.pageSize"
@@ -77,11 +75,14 @@
             <nz-form-label><span class="circle"></span> 时间筛选</nz-form-label>
             <nz-form-control class="picker-control">
               <nz-date-picker
+                nzPlaceHolder="请选择开始时间"
                 nzShowTime
                 formControlName="startTime"
+                (nzOnOpenChange)="(openChange)"
               ></nz-date-picker>
               <div class="divider"></div>
               <nz-date-picker
+                nzPlaceHolder="请选择结束时间"
                 nzShowTime
                 formControlName="endTime"
               ></nz-date-picker>
@@ -168,14 +169,10 @@
   <nz-modal
     [(nzVisible)]="preVisible"
     (nzOnCancel)="preVisible = false"
-    nzWidth="50%"
+    nzWidth="30%"
     [nzFooter]="null"
     (nzAfterOpen)="preAfterOpen()"
     [nzClosable]="false"
-    [nzStyle]="{
-      height: '700px',
-      overflow: 'auto'
-    }"
   >
     <ng-container *nzModalContent>
       <div id="editor"></div>
