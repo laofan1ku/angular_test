@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-17 11:13:48
+ * @LastEditTime: 2023-10-17 11:40:00
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +11,7 @@ import * as dayjs from 'dayjs';
 import 'ace-builds/src-noconflict/theme-monokai'; // 主题
 import 'ace-builds/src-noconflict/mode-json'; // 语言模式
 import { random, cloneDeep } from 'lodash'; // 只导入需要的函数
-import { MyService } from '../../api/main';
+import { MainService } from '../../api/main';
 import { CommunicateService } from '../communicate.service';
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 interface listType {
@@ -108,7 +108,7 @@ export class dialogComponent implements OnInit {
     },
   ];
   constructor(
-    private myService: MyService,
+    private MainService: MainService,
     private cs: CommunicateService,
     private fb: NonNullableFormBuilder
   ) {}
@@ -198,7 +198,9 @@ export class dialogComponent implements OnInit {
   // 表数据
   getList() {
     this.loading = true;
-    this.myService.getDocumentsApi(this.listQuery).subscribe((res) => {
+    this.MainService.getDocumentsApi(this.listQuery).subscribe((res) => {
+      console.log('res', res);
+
       this.list = res.data;
       this.total = res.total;
       this.loading = false;
@@ -225,10 +227,9 @@ export class dialogComponent implements OnInit {
       ? dayjs(params.endTime).format('YYYY-MM-DD HH:mm:ss')
       : '';
     // console.log(...params);
-    this.myService[type === 'JSON' ? 'exportFileJSONApi' : 'exportFileCSVApi'](
-      this.listQuery.tableName
-      // ...params.value
-    ).subscribe((res) => {
+    this.MainService[
+      type === 'JSON' ? 'exportFileJSONApi' : 'exportFileCSVApi'
+    ](this.listQuery.tableName).subscribe((res) => {
       if (type === 'CSV') this.downloadCSVFile(res);
       else this.downloadJsonFile(JSON.stringify(res));
     });
