@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-17 09:41:46
+ * @LastEditTime: 2023-10-17 11:13:48
  * @Description: 请填写简介
  */
 import { Component, OnInit } from '@angular/core';
@@ -18,6 +18,17 @@ interface listType {
   currenttime: number;
   SimData: any[];
   index: number;
+}
+interface selectListType {
+  id: number;
+  label: string;
+  allChecked: boolean;
+  indeterminate: boolean;
+  list: {
+    value: number;
+    label: string;
+    checked: boolean;
+  }[];
 }
 @Component({
   selector: 'app-dialog',
@@ -80,31 +91,91 @@ export class dialogComponent implements OnInit {
     modelName: [''],
     paramsName: [''],
   });
-  modelList: any[] = [];
+  selectList: selectListType[] = [
+    {
+      id: 1,
+      label: '模型选择',
+      allChecked: false,
+      indeterminate: false,
+      list: [],
+    },
+    {
+      id: 2,
+      label: '参数选择',
+      allChecked: false,
+      indeterminate: false,
+      list: [],
+    },
+  ];
   constructor(
     private myService: MyService,
     private cs: CommunicateService,
     private fb: NonNullableFormBuilder
   ) {}
   ngOnInit(): void {
-    for (let index = 0; index < random(9, 20); index++) {
-      this.modelList.push({
-        id: index,
-        name: '循迹导弹' + index,
+    for (let index = 0; index < random(1, 20); index++) {
+      this.selectList[0].list.push({
+        value: index,
+        label: '循迹导弹' + index,
+        checked: false,
       });
     }
-    // this.isVisible = true;
+    for (let index = 0; index < random(1, 20); index++) {
+      this.selectList[1].list.push({
+        value: index,
+        label: 'key_' + index,
+        checked: false,
+      });
+    }
     this.cs.ob.subscribe((msg) => {
       this.listQuery.tableName = msg;
       this.getList();
       this.isVisible = true;
     });
   }
+  // 输入框回车事件
+  onEnterPressed() {
+    console.log(this.validateForm.value);
+  }
   // 全选更新之后
-  // updateAllChecked() {}
+  updateAllChecked(id: number) {
+    this.selectList.forEach((item) => {
+      if (item.id === id) {
+        item.indeterminate = false;
+        item.list = item.list.map((i: any) => ({
+          ...i,
+          checked: item.allChecked,
+        }));
+      }
+    });
+  }
+  // 选择单个
+  updateSingleChecked(value: number[], id: number): void {
+    this.selectList.forEach((item) => {
+      if (item.id === id) {
+        console.log(item.list);
+        if (item.list.every((i) => !i.checked)) {
+          item.allChecked = false;
+          item.indeterminate = false;
+        } else if (item.list.every((i) => i.checked)) {
+          item.allChecked = true;
+          item.indeterminate = false;
+        } else {
+          item.indeterminate = true;
+        }
+      }
+    });
+  }
   // 关闭之后
   afterClose() {
     this.showDownloadConfig = false;
+    this.selectList.forEach((item) => {
+      item.allChecked = false;
+      item.indeterminate = false;
+      item.list.forEach((i) => {
+        i.checked = false;
+      });
+    });
   }
   // json预览打开之后
   preAfterOpen() {
@@ -124,25 +195,17 @@ export class dialogComponent implements OnInit {
   handleClose() {
     this.isVisible = false;
   }
-  // 日历弹出
-  openChange(e: any) {
-    console.log(e);
-  }
-  // 表格数据
+  // 表数据
   getList() {
     this.loading = true;
     this.myService.getDocumentsApi(this.listQuery).subscribe((res) => {
-      console.log('res', res);
-
       this.list = res.data;
       this.total = res.total;
       this.loading = false;
     });
   }
-  // 多选
-  checkoutChange(value: number[]): void {
-    console.log(value);
-  }
+  // 模型数据
+  getModelList() {}
   // 显示现在设置
   downloadConfig() {
     this.showDownloadConfig = !this.showDownloadConfig;
@@ -150,7 +213,7 @@ export class dialogComponent implements OnInit {
   // 预览
   preview(data: any) {
     this.preVisible = true;
-    // this.jsonData = data;
+    this.jsonData = data;
   }
   // 下载文件
   downLoadFile(type: string) {

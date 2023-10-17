@@ -19,6 +19,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { FormsModule } from '@angular/forms'; // 模板驱动表单
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { ReactiveFormsModule } from '@angular/forms'; // 导入 ReactiveFormsModule 模块
 @NgModule({
@@ -38,6 +39,7 @@ import { ReactiveFormsModule } from '@angular/forms'; // 导入 ReactiveFormsMod
     NzDatePickerModule,
     ReactiveFormsModule,
     NzCheckboxModule,
+    FormsModule,
   ],
   providers: [],
   exports: [dialogComponent],
