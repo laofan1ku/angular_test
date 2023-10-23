@@ -58,8 +58,15 @@
           }
           .content{
             padding: 10px 5px;
-            max-height: 7.552vw;
+            max-height: 20.833vw;
             overflow-y: auto;
+            .params-item{
+              border: 1px solid #1d579b; 
+              border-radius: 5px;
+              .header{
+                margin-bottom: 10px;;
+              }
+            }
           }
         }
         .download-btn-box{
@@ -136,4 +143,12 @@
 }
 .download-config-btn:hover, .close:hover{
   background-color: rgba(38, 102, 178, .5);
+}
+.picker-box{
+  .divider{
+    width: 30px;
+    height: 3px;
+    background: #6faff7;
+    margin: 0 10px;
+  }
 }

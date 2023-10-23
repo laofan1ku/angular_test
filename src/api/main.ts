@@ -2,7 +2,7 @@
  * @Author: liukun
  * @Date: 2023-09-27 10:22:40
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-17 13:34:35
+ * @LastEditTime: 2023-10-20 11:46:27
  * @FilePath: \501-aq-pro\src\api\main.ts
  * @Description: 后端接口封装文件
  *
@@ -26,22 +26,18 @@ export class MainService {
     return this.baseService.get(`getDocuments`, { params: listQuery });
   }
   // 导出文件 csv/json
-  exportFileCSVApi(name: string): Observable<any> {
-    let params = new HttpParams();
-    params = params.set('tableName', name);
+  exportFileCSVApi(params: any): Observable<any> {
     return this.baseService.get(`exportCSV`, {
       responseType: 'blob',
       params,
     });
   }
-  exportFileJSONApi(name: string): Observable<any> {
-    let params = new HttpParams();
-    params = params.set('tableName', name);
+  exportFileJSONApi(params: any): Observable<any> {
     return this.baseService.get(`exportJSON`, {
       params,
     });
   }
   getModelListApi(listQuery: any): Observable<any> {
-    return this.baseService.get('getDataTableNames', { params: listQuery });
+    return this.baseService.get('getModelInfos', { params: listQuery });
   }
 }

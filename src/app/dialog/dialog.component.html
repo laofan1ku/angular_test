@@ -2,7 +2,7 @@
  * @Author: liukun
  * @Date: 2023-09-26 13:33:14
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-17 13:41:31
+ * @LastEditTime: 2023-10-23 10:29:13
  * @FilePath: \501-aq-pro\src\app\dialog\dialog.component.html
  * @Description: 
  * 
@@ -70,21 +70,31 @@
         class="download-config-box"
         [ngStyle]="{ display: showDownloadConfig ? 'block' : 'none' }"
       >
-        <form nz-form [formGroup]="validateForm" class="form">
+        <!-- <form nz-form [formGroup]="validateForm" class="form">
           <nz-form-item class="mar_b_10">
             <nz-form-label><span class="circle"></span> 时间筛选</nz-form-label>
             <nz-form-control class="picker-control">
-              <nz-date-picker
-                nzPlaceHolder="请选择开始时间"
-                nzShowTime
-                formControlName="startTime"
-              ></nz-date-picker>
-              <div class="divider"></div>
-              <nz-date-picker
-                nzPlaceHolder="请选择结束时间"
-                nzShowTime
-                formControlName="endTime"
-              ></nz-date-picker>
+              <div class="dis-flex flex-x-between width_100">
+                <div class="dis-flex align-items">
+                  <nz-date-picker
+                    nzPlaceHolder="请选择开始时间"
+                    nzShowTime
+                    formControlName="startTime"
+                  ></nz-date-picker>
+                  <div class="divider"></div>
+                  <nz-date-picker
+                    nzPlaceHolder="请选择结束时间"
+                    nzShowTime
+                    formControlName="endTime"
+                  ></nz-date-picker>
+                </div>
+                <div>
+                  <button nz-button nzType="primary" (click)="search()">
+                    <span nz-icon nzType="search"></span>
+                    搜索
+                  </button>
+                </div>
+              </div>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item class="mar_b_10">
@@ -119,20 +129,39 @@
               </div>
             </nz-form-control>
           </nz-form-item>
-        </form>
-        <div class="select-box" *ngFor="let item of selectList">
+        </form> -->
+        <div class="dis-flex picker-box align-items select-box">
+          <div class="mar_r_10">
+            <span class="circle"></span>
+            <span>时间筛选</span>
+          </div>
+          <div class="dis-flex align-items">
+            <nz-date-picker
+              nzPlaceHolder="请选择开始时间"
+              nzShowTime
+              [(ngModel)]="startTime"
+            ></nz-date-picker>
+            <div class="divider"></div>
+            <nz-date-picker
+              nzPlaceHolder="请选择结束时间"
+              nzShowTime
+              [(ngModel)]="endTime"
+            ></nz-date-picker>
+          </div>
+        </div>
+        <div class="select-box">
           <div class="header dis-flex">
             <div class="mar_r_10 dis-flex align-items">
               <span class="circle"></span>
-              <span>{{ item.label }}</span>
+              <span>{{ modelList.label }}</span>
               <nz-divider nzType="vertical"></nz-divider>
               <span>
                 <label
                   nz-checkbox
-                  [(ngModel)]="item.allChecked"
-                  [nzDisabled]="!(item.list.length > 0)"
-                  [nzIndeterminate]="item.indeterminate"
-                  (ngModelChange)="updateAllChecked(item.id)"
+                  [(ngModel)]="modelList.allChecked"
+                  [nzDisabled]="!(modelList.list.length > 0)"
+                  [nzIndeterminate]="modelList.indeterminate"
+                  (ngModelChange)="updateAllChecked($event, 'model')"
                   style="color: #79bbff"
                 >
                   选择全部
@@ -144,18 +173,93 @@
           <div class="content">
             <nz-checkbox-wrapper
               class="dis-flex flex_wrap"
-              (nzOnChange)="updateSingleChecked($event, item.id)"
+              (nzOnChange)="updateSingleChecked($event, 'model')"
             >
               <div
                 class="item mar_r_20 mar_b_5"
-                *ngFor="let checkItem of item.list"
+                *ngFor="let checkItem of modelList.list"
               >
-                <span class="mar_r_5 col_f f-8">{{ checkItem.label }}</span
+                <span class="mar_r_5 col_f f-8">{{
+                  checkItem.InstanceName
+                }}</span
                 ><label
                   nz-checkbox
-                  [nzValue]="checkItem.value"
+                  [nzValue]="checkItem.ID"
                   [(ngModel)]="checkItem.checked"
                 ></label>
+              </div>
+            </nz-checkbox-wrapper>
+          </div>
+        </div>
+        <div class="select-box">
+          <div class="header dis-flex">
+            <div class="mar_r_10 dis-flex align-items">
+              <span class="circle"></span>
+              <span>{{ paramsList.label }}</span>
+              <nz-divider nzType="vertical"></nz-divider>
+              <span>
+                <label
+                  nz-checkbox
+                  [(ngModel)]="paramsList.allChecked"
+                  [nzDisabled]="!(paramsList.list.length > 0)"
+                  [nzIndeterminate]="paramsList.indeterminate"
+                  (ngModelChange)="updateAllChecked($event, 'params')"
+                  style="color: #79bbff"
+                >
+                  选择全部
+                </label></span
+              >
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="content">
+            <nz-checkbox-wrapper
+              class="dis-flex flex_wrap"
+              (nzOnChange)="updateSingleChecked($event, 'params')"
+            >
+              <div
+                *ngFor="let item of paramsList.list"
+                class="mar_b_10 pad_10 params-item"
+              >
+                <div class="dis-flex align-items header">
+                  <span class="mar_r_10 col_f f-8">{{ item.label }}</span>
+                  <span>
+                    <label
+                      nz-checkbox
+                      [(ngModel)]="item.allChecked"
+                      [nzDisabled]="!(paramsList.list.length > 0)"
+                      [nzIndeterminate]="item.indeterminate"
+                      (ngModelChange)="
+                        updateAllChecked($event, 'modelParamsAll', item.id)
+                      "
+                      style="color: #79bbff"
+                    >
+                      选择全部
+                    </label></span
+                  >
+                </div>
+                <div>
+                  <span
+                    class="item mar_r_20 mar_b_5"
+                    *ngFor="let checkItem of item.list"
+                  >
+                    <nz-checkbox-wrapper
+                      (nzOnChange)="
+                        updateSingleChecked($event, 'paramsItem', item.id)
+                      "
+                    >
+                      <span class="mar_r_5 col_f f-8">{{
+                        checkItem.label
+                      }}</span>
+                      <label
+                        nz-checkbox
+                        [nzValue]="checkItem.label"
+                        [(ngModel)]="checkItem.checked"
+                      ></label>
+                    </nz-checkbox-wrapper>
+                  </span>
+                  <!-- <nz-divider></nz-divider> -->
+                </div>
               </div>
             </nz-checkbox-wrapper>
           </div>

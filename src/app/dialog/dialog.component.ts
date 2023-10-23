@@ -2,33 +2,21 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-17 13:55:53
+ * @LastEditTime: 2023-10-23 10:36:15
  * @Description: 请填写简介
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import * as ace from 'ace-builds';
 import * as dayjs from 'dayjs';
 import 'ace-builds/src-noconflict/theme-monokai'; // 主题
 import 'ace-builds/src-noconflict/mode-json'; // 语言模式
-import { random, cloneDeep } from 'lodash'; // 只导入需要的函数
 import { MainService } from '../../api/main';
 import { CommunicateService } from '../communicate.service';
-import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder } from '@angular/forms';
 interface listType {
   currenttime: number;
   SimData: any[];
   index: number;
-}
-interface selectListType {
-  id: number;
-  label: string;
-  allChecked: boolean;
-  indeterminate: boolean;
-  list: {
-    value: number;
-    label: string;
-    checked: boolean;
-  }[];
 }
 @Component({
   selector: 'app-dialog',
@@ -80,55 +68,29 @@ export class dialogComponent implements OnInit {
     pageSize: 10,
   };
   editor: any = null;
-  validateForm: FormGroup<{
-    startTime: FormControl<string>;
-    endTime: FormControl<string>;
-    modelName: FormControl<string>;
-    paramsName: FormControl<string>;
-  }> = this.fb.group({
-    startTime: [''],
-    endTime: [''],
-    modelName: [''],
-    paramsName: [''],
-  });
-  selectList: selectListType[] = [
-    {
-      id: 1,
-      label: '模型选择',
-      allChecked: false,
-      indeterminate: false,
-      list: [],
-    },
-    {
-      id: 2,
-      label: '参数选择',
-      allChecked: false,
-      indeterminate: false,
-      list: [],
-    },
-  ];
+  startTime: Date | null | number | string = null;
+  endTime: Date | null | number | string = null;
+  minTime: Date | null | number | string = null;
+  maxTime: Date | null | number | string = null;
+  modelList: any = {
+    label: '模型选择',
+    allChecked: false,
+    indeterminate: false,
+    list: [],
+  };
+  paramsList: any = {
+    label: '参数选择',
+    allChecked: false,
+    indeterminate: false,
+    list: [],
+  };
   constructor(
+    private cdr: ChangeDetectorRef,
     private MainService: MainService,
     private cs: CommunicateService,
     private fb: NonNullableFormBuilder
   ) {}
   ngOnInit(): void {
-    setTimeout(() => {
-      for (let index = 0; index < random(1, 20); index++) {
-        this.selectList[0].list.push({
-          value: index,
-          label: '循迹导弹' + index,
-          checked: false,
-        });
-      }
-      for (let index = 0; index < random(1, 20); index++) {
-        this.selectList[1].list.push({
-          value: index,
-          label: 'key_' + index,
-          checked: false,
-        });
-      }
-    }, 10 * 1000);
     this.cs.ob.subscribe((msg) => {
       this.listQuery.tableName = msg;
       this.getList();
@@ -136,44 +98,136 @@ export class dialogComponent implements OnInit {
     });
   }
   // 全选更新之后
-  updateAllChecked(id: number) {
-    this.selectList.forEach((item) => {
-      if (item.id === id) {
-        item.indeterminate = false;
-        item.list = item.list.map((i: any) => ({
-          ...i,
-          checked: item.allChecked,
-        }));
-      }
-    });
+  updateAllChecked(e: any, key: string, id: number = 0) {
+    const arr: any[] = [];
+    switch (key) {
+      case 'model':
+        this.modelList.list.forEach((item: any) => {
+          item.checked = e;
+          if (e) {
+            arr.push({
+              id: item.ID,
+              label: item.InstanceName,
+              indeterminate: false,
+              allChecked: false,
+              list: this.getAllKeys(item),
+            });
+          }
+        });
+        this.paramsList.list = e ? arr : [];
+        break;
+      case 'params':
+        this.paramsList.list.forEach((item: any) => {
+          item.allChecked = e;
+          item.list.forEach((i: any) => {
+            i.checked = e;
+          });
+        });
+
+        break;
+      case 'modelParamsAll':
+        this.paramsList.list.forEach((item: any) => {
+          if (id === item.id) {
+            item.list.forEach((i: any) => {
+              i.checked = e;
+            });
+          }
+        });
+        this.paramsList.allChecked = this.paramsList.list.every(
+          (i: any) => i.allChecked
+        );
+        break;
+      default:
+        break;
+    }
   }
-  // 选择单个
-  updateSingleChecked(value: number[], id: number): void {
-    this.selectList.forEach((item) => {
-      if (item.id === id) {
-        console.log(item.list);
-        if (item.list.every((i) => !i.checked)) {
-          item.allChecked = false;
-          item.indeterminate = false;
-        } else if (item.list.every((i) => i.checked)) {
-          item.allChecked = true;
-          item.indeterminate = false;
-        } else {
-          item.indeterminate = true;
+  getAllKeys(obj: any) {
+    const keys: any[] = [];
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (key !== 'checked') keys.push({ label: key, checked: false });
+        if (typeof obj[key] === 'object') {
+          keys.push(...this.getAllKeys(obj[key])); // 递归获取嵌套对象的键
         }
       }
+    }
+    return keys;
+  }
+  updateCheckedBasedOnIds(a: any, b: any) {
+    for (let i = 0; i < a.length; i++) {
+      const idA = a[i];
+      const itemB = b.find((item: any) => item.ID === idA);
+      if (itemB) {
+        // 如果a的id在b数组中，设置itemB的checked属性为true
+        itemB.checked = true;
+      } else {
+        // 如果a的id不在b数组中，设置itemB的checked属性为false
+        const indexB = b.findIndex((item: any) => item.ID === idA);
+        if (indexB !== -1) {
+          b[indexB].checked = false;
+        }
+      }
+    }
+    this.compareAndModifyArrays(b, this.paramsList.list);
+  }
+  compareAndModifyArrays(a: any, b: any) {
+    for (let i = 0; i < a.length; i++) {
+      const idA = a[i].ID;
+      if (a[i].checked && !b.find((i: any) => i.id === idA)) {
+        b.push({
+          id: a[i].ID,
+          label: a[i].InstanceName,
+          indeterminate: false,
+          allChecked: false,
+          list: this.getAllKeys(a[i]),
+        });
+      } else {
+        const find = b.findIndex((i: any) => i.id === idA);
+        if (!a[i].checked && find !== -1) b.splice(find, 1);
+      }
+    }
+  }
+  // 选择单个
+  updateSingleChecked(e: any, key: string, id: number = 0): void {
+    switch (key) {
+      case 'model':
+        this.updateCheckedBasedOnIds(e, this.modelList.list);
+        this.modelList.allChecked = e.length === this.modelList.list.length;
+        this.paramsList.allChecked = this.areAllCheckedTrue(
+          this.paramsList.list
+        );
+        break;
+      case 'params':
+        break;
+      case 'paramsItem':
+        this.paramsList.list.forEach((item: any) => {
+          if (id === item.id) {
+            item.allChecked = item.list.every((i: any) => i.checked);
+          }
+        });
+        this.paramsList.allChecked = this.areAllCheckedTrue(
+          this.paramsList.list
+        );
+        break;
+      default:
+        break;
+    }
+  }
+  areAllCheckedTrue(arr: any) {
+    return arr.every(function (item: any) {
+      if (item.list && Array.isArray(item.list)) {
+        // 使用 every 方法检查 list 数组中的 checked 字段是否都为 true
+        return item.list.every(function (subItem: any) {
+          return subItem.checked === true;
+        });
+      }
+      // 如果 list 不存在或不是数组，则返回 false
+      return false;
     });
   }
   // 关闭之后
   afterClose() {
     this.showDownloadConfig = false;
-    this.selectList.forEach((item) => {
-      item.allChecked = false;
-      item.indeterminate = false;
-      item.list.forEach((i) => {
-        i.checked = false;
-      });
-    });
   }
   // json预览打开之后
   preAfterOpen() {
@@ -197,8 +251,6 @@ export class dialogComponent implements OnInit {
   getList() {
     this.loading = true;
     this.MainService.getDocumentsApi(this.listQuery).subscribe((res) => {
-      console.log('res', res);
-
       // this.list = res.data;
       this.list = res;
       // this.total = res.total;
@@ -207,21 +259,27 @@ export class dialogComponent implements OnInit {
   }
   // 搜索
   search() {
-    this.MainService.getModelListApi(this.validateForm.value).subscribe(
-      (res) => {
-        this.selectList.forEach((item) => {
-          item.allChecked = false;
-          item.indeterminate = false;
-          item.list.forEach((i) => {
-            i.checked = false;
-          });
-        });
-      }
-    );
+    this.MainService.getModelListApi({
+      // tableName: this.listQuery.tableName,
+      tableName: 'datasimulation20230919171432202309191714233600s320',
+    }).subscribe((res) => {
+      this.modelList.list = res.map((i: any) => {
+        return { ...i, checked: false };
+      });
+      this.startTime = dayjs(res.minTime).format('YYYY-MM-DD HH:mm:ss');
+      this.endTime = dayjs(res.maxTime).format('YYYY-MM-DD HH:mm:ss');
+      this.minTime = dayjs(res.minTime).format('YYYY-MM-DD HH:mm:ss');
+      this.maxTime = dayjs(res.maxTime).format('YYYY-MM-DD HH:mm:ss');
+      this.modelList.allChecked = false;
+      this.modelList.indeterminate = false;
+      this.paramsList.allChecked = false;
+      this.paramsList.indeterminate = false;
+    });
   }
   // 显示现在设置
   downloadConfig() {
     this.showDownloadConfig = !this.showDownloadConfig;
+    if (this.showDownloadConfig) this.search();
   }
   // 预览
   preview(data: any) {
@@ -230,17 +288,15 @@ export class dialogComponent implements OnInit {
   }
   // 下载文件
   downLoadFile(type: string) {
-    const params = cloneDeep(this.validateForm.value);
-    params.startTime = params.startTime
-      ? dayjs(params.startTime).format('YYYY-MM-DD HH:mm:ss')
-      : '';
-    params.endTime = params.endTime
-      ? dayjs(params.endTime).format('YYYY-MM-DD HH:mm:ss')
-      : '';
-    // console.log(...params);
+    const obj = {
+      3: ['ID', 'InstanceName', 'init_latitude', 'init_longitude'],
+    };
     this.MainService[
       type === 'JSON' ? 'exportFileJSONApi' : 'exportFileCSVApi'
-    ](this.listQuery.tableName).subscribe((res) => {
+    ]({
+      tableName: this.listQuery.tableName,
+      modelInfos: JSON.stringify(obj),
+    }).subscribe((res) => {
       if (type === 'CSV') this.downloadCSVFile(res);
       else this.downloadJsonFile(JSON.stringify(res));
     });
