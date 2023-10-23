@@ -73,8 +73,14 @@
 .ant-picker-dropdown .ant-picker-header{
   border-color: var(--input-border-color);
 }
-.ant-picker-dropdown .ant-picker-panel .ant-picker-footer{
-  border: unset;
+.ant-picker-dropdown .ant-picker-panel-container .ant-picker-footer{
+  border-bottom: 1px solid var(--input-border-color);
+}
+.ant-picker-cell-disabled::before{
+  background: #999;
+}
+.ant-picker-ranges{
+  background: #0c2841;
 }
 .ant-picker-datetime-panel .ant-picker-time-panel, .ant-picker-time-panel-column:not(:first-child) {
   border-left: 1px solid var(--input-border-color);

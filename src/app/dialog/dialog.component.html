@@ -136,17 +136,6 @@
             <span>时间筛选</span>
           </div>
           <div class="dis-flex align-items">
-            <!-- <nz-date-picker
-              nzPlaceHolder="请选择开始时间"
-              nzShowTime
-              [(ngModel)]="startTime"
-            ></nz-date-picker>
-            <div class="divider"></div>
-            <nz-date-picker
-              nzPlaceHolder="请选择结束时间"
-              nzShowTime
-              [(ngModel)]="endTime"
-            ></nz-date-picker> -->
             <nz-range-picker
               [nzDisabledDate]="disabledDate"
               [nzDisabledTime]="disabledRangeTime"
@@ -156,6 +145,15 @@
               }"
               nzFormat="yyyy-MM-dd HH:mm:ss"
             ></nz-range-picker>
+            <button
+              nz-button
+              nzType="primary"
+              (click)="search()"
+              class="mar_l_10"
+            >
+              <span nz-icon nzType="search"></span>
+              搜索
+            </button>
           </div>
         </div>
         <div class="select-box">

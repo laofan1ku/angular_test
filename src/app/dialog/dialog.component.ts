@@ -1,8 +1,8 @@
 /*
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
- * @LastEditors: 老范
- * @LastEditTime: 2023-10-23 14:15:08
+ * @LastEditors: liukun
+ * @LastEditTime: 2023-10-23 17:06:00
  * @Description: 请填写简介
  */
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -18,6 +18,9 @@ interface listType {
   currenttime: number;
   SimData: any[];
   index: number;
+}
+interface ArrayKeyAny {
+  [key: number]: any[];
 }
 @Component({
   selector: 'app-dialog',
@@ -71,8 +74,8 @@ export class dialogComponent implements OnInit {
   editor: any = null;
   startTime!: Date | null | number | string;
   endTime!: Date | null | number | string;
-  minTime!: number;
-  maxTime!: number;
+  minTime!: Date;
+  maxTime!: Date;
   today = new Date();
   timeDefaultValue = setHours(new Date(), 0);
   modelList: any = {
@@ -107,34 +110,33 @@ export class dialogComponent implements OnInit {
     return result;
   }
   disabledDate = (current: Date): boolean => {
-    // console.log(current);
-
-    console.log(
-      '🚀 ~ file: dialog.component.ts:113 ~ dialogComponent ~ differenceInCalendarDays(current, this.today):',
-      differenceInCalendarDays(current, this.today)
+    const rightDate = Math.ceil(
+      (this.maxTime.getTime() - this.minTime.getTime()) / (1000 * 60 * 60 * 24)
     );
     return (
-      differenceInCalendarDays(current, this.today) > 24 ||
-      differenceInCalendarDays(current, this.today) < 0
+      differenceInCalendarDays(current, this.minTime) < 0 ||
+      differenceInCalendarDays(current, this.minTime) >
+        (rightDate === 1 ? 0 : rightDate)
     );
   };
-  disabledDateTime: DisabledTimeFn = () => ({
-    nzDisabledHours: () => this.range(0, 24).splice(4, 20),
-    nzDisabledMinutes: () => this.range(30, 60),
-    nzDisabledSeconds: () => [55, 56],
-  });
   disabledRangeTime: DisabledTimeFn = (_value, type?: DisabledTimePartial) => {
     if (type === 'start') {
       return {
-        nzDisabledHours: () => this.range(0, 60).splice(4, 20),
-        nzDisabledMinutes: () => this.range(30, 60),
-        nzDisabledSeconds: () => [55, 56],
+        nzDisabledHours: () =>
+          this.range(0, 60).splice(0, dayjs(this.minTime).hour()),
+        nzDisabledMinutes: () =>
+          this.range(0, 60).splice(0, dayjs(this.minTime).minute()),
+        nzDisabledSeconds: () =>
+          this.range(0, 60).splice(0, dayjs(this.minTime).second()),
       };
     }
     return {
-      nzDisabledHours: () => this.range(0, 60).splice(20, 4),
-      nzDisabledMinutes: () => this.range(0, 31),
-      nzDisabledSeconds: () => [55, 56],
+      nzDisabledHours: () =>
+        this.range(0, 60).splice(dayjs(this.maxTime).hour() + 1, 24),
+      nzDisabledMinutes: () =>
+        this.range(0, 60).splice(dayjs(this.maxTime).minute() + 1, 60),
+      nzDisabledSeconds: () =>
+        this.range(0, 60).splice(dayjs(this.maxTime).second() + 1, 60),
     };
   };
   // 全选更新之后
@@ -308,8 +310,10 @@ export class dialogComponent implements OnInit {
       });
       this.startTime = dayjs(res.minTime).format('YYYY-MM-DD HH:mm:ss');
       this.endTime = dayjs(res.maxTime).format('YYYY-MM-DD HH:mm:ss');
-      this.minTime = res.minTime;
-      this.maxTime = res.maxTime;
+      this.minTime = dayjs(res.minTime).toDate();
+      this.maxTime = dayjs(res.maxTime).toDate();
+      // this.minTime = new Date('2023-10-20 13:50:45');
+      // this.maxTime = new Date('2023-10-23 08:37:12');
       this.modelList.allChecked = false;
       this.modelList.indeterminate = false;
       this.paramsList.allChecked = false;
@@ -326,11 +330,15 @@ export class dialogComponent implements OnInit {
     this.preVisible = true;
     this.jsonData = data;
   }
+
   // 下载文件
   downLoadFile(type: string) {
-    const obj = {
-      3: ['ID', 'InstanceName', 'init_latitude', 'init_longitude'],
-    };
+    const obj: ArrayKeyAny = {};
+    this.paramsList.list.forEach(
+      (item: { id: number; list: { checked: boolean; label: string }[] }) => {
+        obj[item.id] = item.list.filter((i) => i.checked).map((i) => i.label);
+      }
+    );
     this.MainService[
       type === 'JSON' ? 'exportFileJSONApi' : 'exportFileCSVApi'
     ]({
