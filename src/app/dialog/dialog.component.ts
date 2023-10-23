@@ -2,17 +2,18 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-23 10:36:15
+ * @LastEditTime: 2023-10-23 13:33:53
  * @Description: 请填写简介
  */
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { differenceInCalendarDays, setHours } from 'date-fns';
 import * as ace from 'ace-builds';
 import * as dayjs from 'dayjs';
 import 'ace-builds/src-noconflict/theme-monokai'; // 主题
 import 'ace-builds/src-noconflict/mode-json'; // 语言模式
 import { MainService } from '../../api/main';
 import { CommunicateService } from '../communicate.service';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { DisabledTimeFn, DisabledTimePartial } from 'ng-zorro-antd/date-picker';
 interface listType {
   currenttime: number;
   SimData: any[];
@@ -68,10 +69,12 @@ export class dialogComponent implements OnInit {
     pageSize: 10,
   };
   editor: any = null;
-  startTime: Date | null | number | string = null;
-  endTime: Date | null | number | string = null;
-  minTime: Date | null | number | string = null;
-  maxTime: Date | null | number | string = null;
+  startTime!: Date | null | number | string;
+  endTime!: Date | null | number | string;
+  minTime!: number;
+  maxTime!: number;
+  today = new Date();
+  timeDefaultValue = setHours(new Date(), 0);
   modelList: any = {
     label: '模型选择',
     allChecked: false,
@@ -87,8 +90,7 @@ export class dialogComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private MainService: MainService,
-    private cs: CommunicateService,
-    private fb: NonNullableFormBuilder
+    private cs: CommunicateService
   ) {}
   ngOnInit(): void {
     this.cs.ob.subscribe((msg) => {
@@ -97,6 +99,34 @@ export class dialogComponent implements OnInit {
       this.isVisible = true;
     });
   }
+  range(start: number, end: number): number[] {
+    const result: number[] = [];
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
+  }
+  disabledDate = (current: Date): boolean =>
+    differenceInCalendarDays(current, this.today) > 0;
+  disabledDateTime: DisabledTimeFn = () => ({
+    nzDisabledHours: () => this.range(0, 24).splice(4, 20),
+    nzDisabledMinutes: () => this.range(30, 60),
+    nzDisabledSeconds: () => [55, 56],
+  });
+  disabledRangeTime: DisabledTimeFn = (_value, type?: DisabledTimePartial) => {
+    if (type === 'start') {
+      return {
+        nzDisabledHours: () => this.range(0, 60).splice(4, 20),
+        nzDisabledMinutes: () => this.range(30, 60),
+        nzDisabledSeconds: () => [55, 56],
+      };
+    }
+    return {
+      nzDisabledHours: () => this.range(0, 60).splice(20, 4),
+      nzDisabledMinutes: () => this.range(0, 31),
+      nzDisabledSeconds: () => [55, 56],
+    };
+  };
   // 全选更新之后
   updateAllChecked(e: any, key: string, id: number = 0) {
     const arr: any[] = [];
@@ -252,7 +282,7 @@ export class dialogComponent implements OnInit {
     this.loading = true;
     this.MainService.getDocumentsApi(this.listQuery).subscribe((res) => {
       // this.list = res.data;
-      this.list = res;
+      this.list = res.data;
       // this.total = res.total;
       this.loading = false;
     });
@@ -263,13 +293,13 @@ export class dialogComponent implements OnInit {
       // tableName: this.listQuery.tableName,
       tableName: 'datasimulation20230919171432202309191714233600s320',
     }).subscribe((res) => {
-      this.modelList.list = res.map((i: any) => {
+      this.modelList.list = res.data.map((i: any) => {
         return { ...i, checked: false };
       });
       this.startTime = dayjs(res.minTime).format('YYYY-MM-DD HH:mm:ss');
       this.endTime = dayjs(res.maxTime).format('YYYY-MM-DD HH:mm:ss');
-      this.minTime = dayjs(res.minTime).format('YYYY-MM-DD HH:mm:ss');
-      this.maxTime = dayjs(res.maxTime).format('YYYY-MM-DD HH:mm:ss');
+      this.minTime = res.minTime;
+      this.maxTime = res.maxTime;
       this.modelList.allChecked = false;
       this.modelList.indeterminate = false;
       this.paramsList.allChecked = false;

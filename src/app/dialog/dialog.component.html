@@ -2,7 +2,7 @@
  * @Author: liukun
  * @Date: 2023-09-26 13:33:14
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-23 10:29:13
+ * @LastEditTime: 2023-10-23 13:46:51
  * @FilePath: \501-aq-pro\src\app\dialog\dialog.component.html
  * @Description: 
  * 
@@ -136,7 +136,7 @@
             <span>时间筛选</span>
           </div>
           <div class="dis-flex align-items">
-            <nz-date-picker
+            <!-- <nz-date-picker
               nzPlaceHolder="请选择开始时间"
               nzShowTime
               [(ngModel)]="startTime"
@@ -146,7 +146,16 @@
               nzPlaceHolder="请选择结束时间"
               nzShowTime
               [(ngModel)]="endTime"
-            ></nz-date-picker>
+            ></nz-date-picker> -->
+            <nz-range-picker
+              [nzDisabledDate]="disabledDate"
+              [nzDisabledTime]="disabledRangeTime"
+              [nzShowTime]="{
+                nzHideDisabledOptions: true,
+                nzDefaultOpenValue: timeDefaultValue
+              }"
+              nzFormat="yyyy-MM-dd HH:mm:ss"
+            ></nz-range-picker>
           </div>
         </div>
         <div class="select-box">

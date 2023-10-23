@@ -50,7 +50,8 @@ export class ResponseHandlerInterceptor implements HttpInterceptor {
           return false;
         }
       }),
-      map((event: HttpResponse<any>) => event.clone({ body: event.body.data }))
+      // map((event: HttpResponse<any>) => event.clone({ body: event.body.data }))
+      map((event: HttpResponse<any>) => event.clone({ body: event.body }))
     );
   }
 }

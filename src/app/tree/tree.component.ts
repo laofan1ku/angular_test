@@ -2,7 +2,7 @@
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
  * @LastEditors: liukun
- * @LastEditTime: 2023-10-17 13:48:16
+ * @LastEditTime: 2023-10-23 13:13:18
  * @Description: 请填写简介
  */
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -80,7 +80,7 @@ export class treeComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.MainService.getTreeListApi().subscribe((res) => {
-      const data = res.map((i: any) => {
+      const data = res.data.map((i: any) => {
         return { title: i, key: i, isLeaf: true };
       });
       this.nodes[0].children = data;
