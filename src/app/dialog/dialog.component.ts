@@ -1,8 +1,8 @@
 /*
  * @Author: 老范
  * @Date: 2023-09-25 17:19:16
- * @LastEditors: liukun
- * @LastEditTime: 2023-10-23 13:33:53
+ * @LastEditors: 老范
+ * @LastEditTime: 2023-10-23 14:15:08
  * @Description: 请填写简介
  */
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -106,8 +106,18 @@ export class dialogComponent implements OnInit {
     }
     return result;
   }
-  disabledDate = (current: Date): boolean =>
-    differenceInCalendarDays(current, this.today) > 0;
+  disabledDate = (current: Date): boolean => {
+    // console.log(current);
+
+    console.log(
+      '🚀 ~ file: dialog.component.ts:113 ~ dialogComponent ~ differenceInCalendarDays(current, this.today):',
+      differenceInCalendarDays(current, this.today)
+    );
+    return (
+      differenceInCalendarDays(current, this.today) > 24 ||
+      differenceInCalendarDays(current, this.today) < 0
+    );
+  };
   disabledDateTime: DisabledTimeFn = () => ({
     nzDisabledHours: () => this.range(0, 24).splice(4, 20),
     nzDisabledMinutes: () => this.range(30, 60),
